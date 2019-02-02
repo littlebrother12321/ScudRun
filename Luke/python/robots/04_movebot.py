@@ -8,14 +8,14 @@ import random;
 import math;
 
 #get the screen ready
-BOX_TOP = 768;
-BOX_BOTTOM = 0;
+BOX_TOP = 0;
+BOX_BOTTOM = 768;
 BOX_LEFT = 0;
 BOX_RIGHT = 1024;
 CHARACTER_SPEED = 4;
 ROBOT_SPEED = 4;
 ROBOT2_SPEED = 4;
-screen = pygame.display.set_mode((BOX_RIGHT,BOX_TOP));
+screen = pygame.display.set_mode((BOX_RIGHT,BOX_BOTTOM	));
 pygame.display.set_caption('Lukes game window');
 clock = pygame.time.Clock();
 random.seed();
@@ -30,9 +30,9 @@ if(pygame.joystick.get_count()):
 keepPlaying = True;
 character_x =512; character_y =384;
 robot_x = random.randint(BOX_LEFT,BOX_RIGHT);
-robot_y = random.randint(BOX_BOTTOM,BOX_TOP);
+robot_y = random.randint(BOX_TOP,BOX_BOTTOM);
 robot2_x =random.randint(BOX_LEFT,BOX_RIGHT);
-robot2_y =random.randint(BOX_BOTTOM,BOX_TOP);
+robot2_y =random.randint(BOX_TOP,BOX_BOTTOM);
 
 while keepPlaying:
    clock.tick(4000);
@@ -59,16 +59,19 @@ while keepPlaying:
       keepPlaying = False;
    if(joystick.get_button( 10 )):
       character_x = random.randint(BOX_LEFT,BOX_RIGHT); 
-      character_y = random.randint(BOX_BOTTOM,BOX_TOP);
+      character_y = random.randint(BOX_TOP,BOX_BOTTOM);
    if(joystick.get_button( 11 )):
       robot_x = random.randint(BOX_LEFT,BOX_RIGHT);
-      robot_y = random.randint(BOX_BOTTOM,BOX_TOP);
+      robot_y = random.randint(BOX_TOP,BOX_BOTTOM);
 
    #Game Logic
-   character_x += int(math.floor(axis0*CHARACTER_SPEED));
-   character_y += int(math.floor(axis1*CHARACTER_SPEED));
-   robot_x += int(math.floor(axis2*ROBOT_SPEED));
-   robot_y += int(math.floor(axis3*ROBOT_SPEED));
+   #interpret the joystick axes
+   character_x += int(axis0*CHARACTER_SPEED);
+   character_y += int(axis1*CHARACTER_SPEED);
+   robot_x += int(axis2*ROBOT_SPEED);
+   robot_y += int(axis3*ROBOT_SPEED);
+   
+   #limit the character to the game window
    if(character_x > BOX_RIGHT):
       character_x = BOX_RIGHT;
    if(character_x < BOX_LEFT):
@@ -77,22 +80,28 @@ while keepPlaying:
       character_y = BOX_TOP;
    if(character_y > BOX_BOTTOM):
       character_y = BOX_BOTTOM;
-#   if(robot_x > BOX_RIGHT):
-#      robot_x = BOX_LEFT;
-#   if(robot_x < BOX_LEFT):
-#      robot_x = BOX_RIGHT;
-#   if(robot_y < BOX_TOP):
-#      robot_y = BOX_BOTTOM;
-#   if(robot_y > BOX_BOTTOM):
-#      robot_y = BOX_TOP;
-#   if(robot2_x > BOX_RIGHT):
-#      robot2_x = BOX_LEFT;
-#   if(robot2_x < BOX_LEFT):
-#      robot2_x = BOX_RIGHT;
-#   if(robot2_y > BOX_TOP):
-#      robot2_y = BOX_BOTTOM;
-#   if(robot2_y < BOX_BOTTOM):
-#      robot2_y = BOX_TOP;
+
+   #allowing the robot to wrap
+   if(robot_x > BOX_RIGHT):
+      robot_x = BOX_LEFT;
+   if(robot_x < BOX_LEFT):
+      robot_x = BOX_RIGHT;
+   if(robot_y < BOX_TOP):
+      robot_y = BOX_BOTTOM;
+   if(robot_y > BOX_BOTTOM):
+      robot_y = BOX_TOP;
+
+   #allowing the robot2 to wrap
+   if(robot2_x > BOX_RIGHT):
+      robot2_x = BOX_LEFT;
+   if(robot2_x < BOX_LEFT):
+      robot2_x = BOX_RIGHT;
+   if(robot2_x < BOX_LEFT):
+      robot2_x = BOX_RIGHT;
+   if(robot2_y < BOX_TOP):
+      robot2_y = BOX_BOTTOM;
+   if(robot2_y > BOX_BOTTOM):
+      robot2_y = BOX_TOP;
 
    #Draw the screen
    screen.fill((12,0,128));
@@ -107,4 +116,5 @@ while keepPlaying:
 
     
 print "Game over"
-
+print "robot " + str(robot_x) + "," + str(robot_y)
+print "robot2 " + str(robot2_x) + "," + str(robot2_y)
