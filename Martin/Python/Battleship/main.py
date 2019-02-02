@@ -1,5 +1,10 @@
 import random
 
+#Game Message
+print("\nYou have 20 turns to guess the position of a 1 x 1 battleship")
+print("Please Enter Your Answer in the Form of an Integer plz")
+print("Things will break otherwise...\n")
+
 #Create a Board
 board = []
 
