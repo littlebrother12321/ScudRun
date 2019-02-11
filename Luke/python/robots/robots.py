@@ -38,6 +38,12 @@ while keepPlaying:
    clock.tick(4000);
    #Handle Events (key press)
    for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+         keepPlaying = False;
+      if event.type == pygame.JOYBUTTONDOWN:
+         if(joystick.get_button( 10 )):
+            character_x = random.randint(BOX_LEFT,BOX_RIGHT); 
+            character_y = random.randint(BOX_TOP,BOX_BOTTOM);
       if not hasattr(event, 'key'):
          continue;
       if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
@@ -57,9 +63,6 @@ while keepPlaying:
    axis3 = joystick.get_axis( 3 );
    if(joystick.get_button( 9 )):
       keepPlaying = False;
-   if(joystick.get_button( 10 )):
-      character_x = random.randint(BOX_LEFT,BOX_RIGHT); 
-      character_y = random.randint(BOX_TOP,BOX_BOTTOM);
    if(joystick.get_button( 11 )):
       robot_x = random.randint(BOX_LEFT,BOX_RIGHT);
       robot_y = random.randint(BOX_TOP,BOX_BOTTOM);
