@@ -34,6 +34,13 @@ robot_y = random.randint(BOX_TOP,BOX_BOTTOM);
 robot2_x =random.randint(BOX_LEFT,BOX_RIGHT);
 robot2_y =random.randint(BOX_TOP,BOX_BOTTOM);
 
+def tp_player_safe():
+   global character_x;
+   global character_y; 
+   character_x = random.randint(BOX_LEFT,BOX_RIGHT); 
+   character_y = random.randint(BOX_TOP,BOX_BOTTOM);
+   print "teleporting..."
+
 while keepPlaying:
    clock.tick(4000);
    #Handle Events (key press)
@@ -42,8 +49,7 @@ while keepPlaying:
          keepPlaying = False;
       if event.type == pygame.JOYBUTTONDOWN:
          if(joystick.get_button( 10 )):
-            character_x = random.randint(BOX_LEFT,BOX_RIGHT); 
-            character_y = random.randint(BOX_TOP,BOX_BOTTOM);
+            tp_player_safe();
       if not hasattr(event, 'key'):
          continue;
       if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
@@ -68,7 +74,7 @@ while keepPlaying:
       robot_y = random.randint(BOX_TOP,BOX_BOTTOM);
 
    #Game Logic
-   #interpret the joystick axes
+      #interpret the joystick axes
    character_x += int(axis0*CHARACTER_SPEED);
    character_y += int(axis1*CHARACTER_SPEED);
    robot_x += int(axis2*ROBOT_SPEED);
