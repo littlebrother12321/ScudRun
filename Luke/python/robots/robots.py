@@ -1,7 +1,6 @@
 #!/usr/bin/python
 #screen.py
 #by luke
-#make a screen appear and disappear by pressing "Q"and "esc"
 
 import pygame;
 import random;
@@ -15,10 +14,38 @@ BOX_RIGHT = 1024;
 CHARACTER_SPEED = 4;
 ROBOT_SPEED = 4;
 ROBOT2_SPEED = 4;
+NUMBER_OF_ROBOTS = 50;
 screen = pygame.display.set_mode((BOX_RIGHT,BOX_BOTTOM	));
 pygame.display.set_caption('Lukes game window');
 clock = pygame.time.Clock();
 random.seed();
+
+
+class robot:
+   def __init__(self):
+      self.pos_x = random.randint(BOX_LEFT,BOX_RIGHT);
+      self.pos_y = random.randint(BOX_TOP,BOX_BOTTOM);
+      self.velocity = [random.randint(-ROBOT_SPEED,
+                                       ROBOT_SPEED),
+                       random.randint(-ROBOT_SPEED,
+                                       ROBOT_SPEED)];
+   def render(self):
+      # .. draw a robot
+      pygame.draw.rect(screen, (255,0,0),(self.pos_x,self.pos_y,10,10), 0);
+
+   def update(self):
+      self.pos_x += self.velocity[0];
+      self.pos_y += self.velocity[1];
+      if self.pos_x < BOX_LEFT:
+         self.velocity[0] *= -1;
+      if self.pos_x > BOX_RIGHT:
+         self.velocity[0] *= -1;
+      if self.pos_y < BOX_TOP:
+         self.velocity[1] *= -1;
+      if self.pos_y > BOX_BOTTOM:
+         self.velocity[1] *= -1;
+
+
 
 #get the game ready
 pygame.joystick.init()
@@ -27,6 +54,15 @@ if(pygame.joystick.get_count()):
    joystick.init();
 
 
+def tp_player_safe():
+   global character_x;
+   global character_y; 
+   character_x = random.randint(BOX_LEFT,BOX_RIGHT); 
+   character_y = random.randint(BOX_TOP,BOX_BOTTOM);
+   print "teleporting..."
+
+robotlist = [robot() for count in range(NUMBER_OF_ROBOTS)];
+
 keepPlaying = True;
 character_x =512; character_y =384;
 robot_x = random.randint(BOX_LEFT,BOX_RIGHT);
@@ -34,12 +70,7 @@ robot_y = random.randint(BOX_TOP,BOX_BOTTOM);
 robot2_x =random.randint(BOX_LEFT,BOX_RIGHT);
 robot2_y =random.randint(BOX_TOP,BOX_BOTTOM);
 
-def tp_player_safe():
-   global character_x;
-   global character_y; 
-   character_x = random.randint(BOX_LEFT,BOX_RIGHT); 
-   character_y = random.randint(BOX_TOP,BOX_BOTTOM);
-   print "teleporting..."
+
 
 while keepPlaying:
    clock.tick(4000);
@@ -89,6 +120,9 @@ while keepPlaying:
       character_y = BOX_TOP;
    if(character_y > BOX_BOTTOM):
       character_y = BOX_BOTTOM;
+   #move class robots
+   for robot in robotlist:
+      robot.update();
 
    #allowing the robot to wrap
    if(robot_x > BOX_RIGHT):
@@ -114,12 +148,13 @@ while keepPlaying:
 
    #Draw the screen
    screen.fill((12,0,128));
-
-   pygame.draw.rect(screen, (255,0,0), 
+   for robot in robotlist:
+      robot.render();
+   pygame.draw.rect(screen, (0,255,0), 
 (robot_x,robot_y,10,10), 0);
    pygame.draw.circle(screen, (192,192,192),
 (character_x,character_y),5, 0);
-   pygame.draw.rect(screen,(255,0,0), 
+   pygame.draw.rect(screen,(0,255,0), 
 (robot2_x,robot2_y,10,10), 0);
    pygame.display.flip();
 
@@ -127,3 +162,4 @@ while keepPlaying:
 print "Game over"
 print "robot " + str(robot_x) + "," + str(robot_y)
 print "robot2 " + str(robot2_x) + "," + str(robot2_y)
+
