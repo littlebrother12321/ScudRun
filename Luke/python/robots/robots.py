@@ -4,9 +4,8 @@
 
 import pygame;
 import random;
-import math;
 
-#get the screen ready
+#Setting Constants
 BOX_TOP = 0;
 BOX_BOTTOM = 768;
 BOX_LEFT = 0;
@@ -15,44 +14,67 @@ CHARACTER_SPEED = 4;
 ROBOT_SPEED = 4;
 ROBOT2_SPEED = 4;
 NUMBER_OF_ROBOTS = 50;
+
+#Initialization
+ #Screen
 screen = pygame.display.set_mode((BOX_RIGHT,BOX_BOTTOM	));
 pygame.display.set_caption('Lukes game window');
+ #Random Number Generator
 clock = pygame.time.Clock();
 random.seed();
-
-
-class robot:
-   def __init__(self):
-      self.pos_x = random.randint(BOX_LEFT,BOX_RIGHT);
-      self.pos_y = random.randint(BOX_TOP,BOX_BOTTOM);
-      self.velocity = [random.randint(-ROBOT_SPEED,
-                                       ROBOT_SPEED),
-                       random.randint(-ROBOT_SPEED,
-                                       ROBOT_SPEED)];
-   def render(self):
-      # .. draw a robot
-      pygame.draw.rect(screen, (255,0,0),(self.pos_x,self.pos_y,10,10), 0);
-
-   def update(self):
-      self.pos_x += self.velocity[0];
-      self.pos_y += self.velocity[1];
-      if self.pos_x < BOX_LEFT:
-         self.velocity[0] *= -1;
-      if self.pos_x > BOX_RIGHT:
-         self.velocity[0] *= -1;
-      if self.pos_y < BOX_TOP:
-         self.velocity[1] *= -1;
-      if self.pos_y > BOX_BOTTOM:
-         self.velocity[1] *= -1;
-
-
-
-#get the game ready
-pygame.joystick.init()
+ #get the joystick ready
+pygame.joystick.init();
 if(pygame.joystick.get_count()):
    joystick = pygame.joystick.Joystick(0);
    joystick.init();
+ #game states
+keepPlaying = True;
 
+
+
+#define functions
+   #define classes
+class Robot:
+   def __init__(self):
+      self.pos_x = random.randint(BOX_LEFT,BOX_RIGHT);
+      self.pos_y = random.randint(BOX_TOP,BOX_BOTTOM);
+      #self.velocity = [random.randint(-ROBOT_SPEED,
+      #                                 ROBOT_SPEED),
+      #                 random.randint(-ROBOT_SPEED,
+      #                                 ROBOT_SPEED)];
+      #self.velocity = [1, 1];
+   def render(self):
+      # .. draw a robot
+      pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+
+   def update(self,x,y):
+      if x > self.pos_x:
+         self.pos_x += 1; 
+
+      if x < self.pos_x:
+         self.pos_x -= 1;
+ 
+      if y > self.pos_y:
+         self.pos_y += 1; 
+
+      if y < self.pos_y:
+         self.pos_y -= 1;
+
+      #self.pos_x += self.velocity[0];
+      #self.pos_y += self.velocity[1];
+      #if self.pos_x < BOX_LEFT:
+      #   self.velocity[0] *= -1;
+      #if self.pos_x > BOX_RIGHT:
+      #   self.velocity[0] *= -1;
+      #if self.pos_y < BOX_TOP:
+      #   self.velocity[1] *= -1;
+      #if self.pos_y > BOX_BOTTOM:
+      #   self.velocity[1] *= -1;
+   def collided(self,x,y):
+      if((x == self.pos_x) and (y == self.pos_y)):
+         return True;
+      else:
+         return False;
 
 def tp_player_safe():
    global character_x;
@@ -61,17 +83,30 @@ def tp_player_safe():
    character_y = random.randint(BOX_TOP,BOX_BOTTOM);
    print "teleporting..."
 
-robotlist = [robot() for count in range(NUMBER_OF_ROBOTS)];
 
-keepPlaying = True;
-character_x =512; character_y =384;
-robot_x = random.randint(BOX_LEFT,BOX_RIGHT);
-robot_y = random.randint(BOX_TOP,BOX_BOTTOM);
-robot2_x =random.randint(BOX_LEFT,BOX_RIGHT);
-robot2_y =random.randint(BOX_TOP,BOX_BOTTOM);
+#setting up the game
+def reset_game():
+   global keePlaying;
+   global robot_x;
+   global robot_y;
+   global robot2_x;
+   global robot2_y;
+   global character_x;
+   global character_y;
+   global robotlist;
+   robotlist = [];
+   robotlist = [Robot() for count in range(NUMBER_OF_ROBOTS)];
+   keepPlaying = True;
+   character_x = 512;
+   character_y = 384;
+   robot_x = random.randint(BOX_LEFT,BOX_RIGHT);
+   robot_y = random.randint(BOX_TOP,BOX_BOTTOM);
+   robot2_x =random.randint(BOX_LEFT,BOX_RIGHT);
+   robot2_y =random.randint(BOX_TOP,BOX_BOTTOM);
 
 
-
+#Start the game
+reset_game();
 while keepPlaying:
    clock.tick(4000);
    #Handle Events (key press)
@@ -81,6 +116,8 @@ while keepPlaying:
       if event.type == pygame.JOYBUTTONDOWN:
          if(joystick.get_button( 10 )):
             tp_player_safe();
+         if(joystick.get_button( 8 )):
+            reset_game();
       if not hasattr(event, 'key'):
          continue;
       if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
@@ -120,9 +157,13 @@ while keepPlaying:
       character_y = BOX_TOP;
    if(character_y > BOX_BOTTOM):
       character_y = BOX_BOTTOM;
+
    #move class robots
    for robot in robotlist:
-      robot.update();
+      robot.update(character_x,character_y);
+      if(robot.collided(character_x,character_y)):
+         keepPlaying = False;
+         print "you died";
 
    #allowing the robot to wrap
    if(robot_x > BOX_RIGHT):
@@ -145,6 +186,7 @@ while keepPlaying:
       robot2_y = BOX_BOTTOM;
    if(robot2_y > BOX_BOTTOM):
       robot2_y = BOX_TOP;
+
 
    #Draw the screen
    screen.fill((12,0,128));
