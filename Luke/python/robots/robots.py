@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #screen.py
-#by luke
+#by Luke
+#with help from Dad
 
 import pygame;
 import random;
