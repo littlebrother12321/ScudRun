@@ -109,7 +109,7 @@ def reset_game():
 #Start the game
 reset_game();
 while keepPlaying:
-   clock.tick(4000);
+   clock.tick(60);
    #Handle Events (key press)
    for event in pygame.event.get():
       if event.type == pygame.QUIT:
