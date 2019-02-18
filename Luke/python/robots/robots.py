@@ -43,23 +43,24 @@ class Robot:
       #                 random.randint(-ROBOT_SPEED,
       #                                 ROBOT_SPEED)];
       #self.velocity = [1, 1];
+      self.broken = False;
    def render(self):
       # .. draw a robot
-      pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+      if self.broken:
+         pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+      else:
+         pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
 
    def update(self,x,y):
-      if x > self.pos_x:
-         self.pos_x += 1; 
-
-      if x < self.pos_x:
-         self.pos_x -= 1;
- 
-      if y > self.pos_y:
-         self.pos_y += 1; 
-
-      if y < self.pos_y:
-         self.pos_y -= 1;
-
+      if(not self.broken):
+         if x > self.pos_x:
+            self.pos_x += 1; 
+         if x < self.pos_x:
+            self.pos_x -= 1;
+         if y > self.pos_y:
+            self.pos_y += 1; 
+         if y < self.pos_y:
+            self.pos_y -= 1;
       #self.pos_x += self.velocity[0];
       #self.pos_y += self.velocity[1];
       #if self.pos_x < BOX_LEFT:
@@ -158,12 +159,16 @@ while keepPlaying:
    if(character_y > BOX_BOTTOM):
       character_y = BOX_BOTTOM;
 
-   #move class robots
-   for robot in robotlist:
-      robot.update(character_x,character_y);
-      if(robot.collided(character_x,character_y)):
+   #move class robots and check for collisins
+   for i in range(len(robotlist)):
+      robotlist[i].update(character_x,character_y);
+      if(robotlist[i].collided(character_x,character_y)):
          keepPlaying = False;
          print "you died";
+      for j in range(i+1,len(robotlist)):
+         if(robotlist[i].collided(robotlist[j].pos_x,robotlist[j].pos_y)):
+            robotlist[i].broken=True;
+            robotlist[j].broken=True;
 
    #allowing the robot to wrap
    if(robot_x > BOX_RIGHT):
