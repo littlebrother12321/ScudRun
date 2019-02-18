@@ -71,8 +71,8 @@ class Robot:
       #   self.velocity[1] *= -1;
       #if self.pos_y > BOX_BOTTOM:
       #   self.velocity[1] *= -1;
-   def collided(self,x,y):
-      if((x == self.pos_x) and (y == self.pos_y)):
+   def collided(self,x,y,dist):
+      if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
          return True;
       else:
          return False;
@@ -162,11 +162,11 @@ while keepPlaying:
    #move class robots and check for collisins
    for i in range(len(robotlist)):
       robotlist[i].update(character_x,character_y);
-      if(robotlist[i].collided(character_x,character_y)):
+      if(robotlist[i].collided(character_x,character_y,3)):
          keepPlaying = False;
          print "you died";
       for j in range(i+1,len(robotlist)):
-         if(robotlist[i].collided(robotlist[j].pos_x,robotlist[j].pos_y)):
+         if(robotlist[i].collided(robotlist[j].pos_x,robotlist[j].pos_y,5)):
             robotlist[i].broken=True;
             robotlist[j].broken=True;
 
