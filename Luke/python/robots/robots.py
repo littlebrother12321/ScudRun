@@ -14,7 +14,8 @@ BOX_RIGHT = 1024;
 CHARACTER_SPEED = 4;
 ROBOT_SPEED = 4;
 ROBOT2_SPEED = 4;
-NUMBER_OF_ROBOTS = 50;
+NUMBER_OF_LOCKBOTS = 10;
+NUMBER_OF_WILDBOTS = 10;
 
 #Initialization
  #Screen
@@ -35,7 +36,15 @@ keepPlaying = True;
 
 #define functions
    #define classes
-class Robot:
+class mob:
+   def __init__(self):
+      pass
+   def render(self):
+      pass
+   def update(self):
+      pass
+
+class Lockbot(mob):
    def __init__(self):
       self.pos_x = random.randint(BOX_LEFT,BOX_RIGHT);
       self.pos_y = random.randint(BOX_TOP,BOX_BOTTOM);
@@ -51,7 +60,6 @@ class Robot:
          pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
       else:
          pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
-
    def update(self,x,y):
       if(not self.broken):
          if x > self.pos_x:
@@ -78,6 +86,40 @@ class Robot:
       else:
          return False;
 
+class Wildbot(mob):
+   def __init__(self):
+      self.pos_x = random.randint(BOX_LEFT,BOX_RIGHT);
+      self.pos_y = random.randint(BOX_TOP,BOX_BOTTOM);
+      self.velocity = [random.randint(-ROBOT_SPEED,
+                                       ROBOT_SPEED),
+                       random.randint(-ROBOT_SPEED,
+                                       ROBOT_SPEED)];
+      self.velocity = [1, 1];
+      self.broken = False;
+   def render(self):
+      # .. draw a robot
+      if self.broken:
+         pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+      else:
+         pygame.draw.rect(screen, (128,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+   def update(self,x,y):
+      if(not self.broken):
+            self.pos_x += self.velocity[0];
+            self.pos_y += self.velocity[1];
+         if self.pos_x < BOX_LEFT:
+            self.velocity[0] *= -1;
+         if self.pos_x > BOX_RIGHT:
+            self.velocity[0] *= -1;
+         if self.pos_y < BOX_TOP:
+            self.velocity[1] *= -1;
+         if self.pos_y > BOX_BOTTOM:
+            self.velocity[1] *= -1;
+   def collided(self,x,y,dist):
+      if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
+         return True;
+      else:
+         return False;
+
 def tp_player_safe():
    global character_x;
    global character_y; 
@@ -95,9 +137,10 @@ def reset_game():
    global robot2_y;
    global character_x;
    global character_y;
-   global robotlist;
-   robotlist = [];
-   robotlist = [Robot() for count in range(NUMBER_OF_ROBOTS)];
+   global moblist;
+   moblist = [];
+   moblist = [Lockbot() for count in range(NUMBER_OF_LOCKBOTS)];
+   moblist += [Wildbot() for count in range(NUMBER_OF_WILDBOTS)];
    keepPlaying = True;
    character_x = 512;
    character_y = 384;
@@ -161,15 +204,15 @@ while keepPlaying:
       character_y = BOX_BOTTOM;
 
    #move class robots and check for collisins
-   for i in range(len(robotlist)):
-      robotlist[i].update(character_x,character_y);
-      if(robotlist[i].collided(character_x,character_y,3)):
+   for i in range(len(moblist)):
+      moblist[i].update(character_x,character_y);
+      if(moblist[i].collided(character_x,character_y,3)):
          keepPlaying = False;
          print "you died";
-      for j in range(i+1,len(robotlist)):
-         if(robotlist[i].collided(robotlist[j].pos_x,robotlist[j].pos_y,5)):
-            robotlist[i].broken=True;
-            robotlist[j].broken=True;
+      for j in range(i+1,len(moblist)):
+         if(moblist[i].collided(moblist[j].pos_x,moblist[j].pos_y,5)):
+            moblist[i].broken=True;
+            moblist[j].broken=True;
 
    #allowing the robot to wrap
    if(robot_x > BOX_RIGHT):
@@ -196,7 +239,7 @@ while keepPlaying:
 
    #Draw the screen
    screen.fill((12,0,128));
-   for robot in robotlist:
+   for robot in moblist:
       robot.render();
    pygame.draw.rect(screen, (0,255,0), 
 (robot_x,robot_y,10,10), 0);
