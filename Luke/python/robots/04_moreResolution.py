@@ -21,6 +21,9 @@ pygame.joystick.init()
 if(pygame.joystick.get_count()):
    joystick = pygame.joystick.Joystick(0);
    joystick.init();
+CAR_SPEED = 10;
+CAR_X = (CAR_SPEED);
+CAR_Y = (CAR_SPEED);
 #import pygame;
 
 
@@ -38,16 +41,7 @@ TURN_SPEED = 5;
 ACCELERATION = 2;
 MAX_FORWARD_SPEED = 10;
 MAX_REVERSE_SPEED = -5;
-#READ THE JOYSTICK
-axis0 = joystick.get_axis( 0 );
-axis1 = joystick.get_axis( 1 );
-if(joystick.get_button( 8 )):
-   speed = 0;
-if(joystick.get_button( 9 )):
-   keepPlaying = False;
-if(joystick.get_button( 4 )):
-   car_y = random.randint(BOX_TOP,BOX_BOTTOM);
-   car_x = random.randint(BOX_LEFT,BOX_RIGHT);
+
 #PARTICLE CONSTANTS
 NUMBER_OF_PARTICLES = 1000;
 BLACK = (32,32,32);
@@ -186,7 +180,18 @@ while 1:
 
    for particle in particlelist:
        particle.update();
-
+   #READ THE JOYSTICK
+   axis0 = joystick.get_axis( 0 );
+   axis1 = joystick.get_axis( 1 );
+   if(joystick.get_button( 8 )):
+      speed = 0;
+   if(joystick.get_button( 9 )):
+      keepPlaying = False;
+   if(joystick.get_button( 4 )):
+      car_y = random.randint(BOX_TOP,BOX_BOTTOM);
+      car_x = random.randint(BOX_LEFT,BOX_RIGHT);
+   direction -= (int)(axis0*TURN_SPEED);
+   speed -= (int)(axis1*MAX_FORWARD_SPEED);
    # RENDERING
    # .. rotate the car image for direction
    rotated_car = pygame.transform.rotate(car, direction);
