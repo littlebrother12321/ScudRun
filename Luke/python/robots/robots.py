@@ -13,7 +13,6 @@ BOX_LEFT = 0;
 BOX_RIGHT = 1024;
 MAX_CHARACTER_SPEED = 4;
 ROBOT_SPEED = 4;
-ROBOT2_SPEED = 4;
 NUMBER_OF_LOCKBOTS = 10;
 NUMBER_OF_WILDBOTS = 10;
 
@@ -137,10 +136,6 @@ class Wildbot(mob):
 #setting up the game
 def reset_game():
    global keePlaying;
-   global robot_x;
-   global robot_y;
-   global robot2_x;
-   global robot2_y;
    global player
    global moblist;
    player = Character();
@@ -148,11 +143,7 @@ def reset_game():
    moblist = [Lockbot() for count in range(NUMBER_OF_LOCKBOTS)];
    moblist += [Wildbot() for count in range(NUMBER_OF_WILDBOTS)];
    keepPlaying = True;
-   robot_x = random.randint(BOX_LEFT,BOX_RIGHT);
-   robot_y = random.randint(BOX_TOP,BOX_BOTTOM);
-   robot2_x =random.randint(BOX_LEFT,BOX_RIGHT);
-   robot2_y =random.randint(BOX_TOP,BOX_BOTTOM);
-
+ 
 
 #Start the game
 reset_game();
@@ -171,14 +162,7 @@ while keepPlaying:
          continue;
       if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
          keepPlaying = False;
-      if event.key == pygame.K_w:
-         robot2_y-= 3;
-      if event.key == pygame.K_s:
-         robot2_y+= 3;
-      if event.key == pygame.K_a:
-         robot2_x-= 3;
-      if event.key == pygame.K_d:
-         robot2_x+= 3;
+
    #Read the Joystick
    axis0 = joystick.get_axis( 0 );
    axis1 = joystick.get_axis( 1 );
@@ -186,13 +170,10 @@ while keepPlaying:
    axis3 = joystick.get_axis( 3 );
    if(joystick.get_button( 9 )):
       keepPlaying = False;
-   if(joystick.get_button( 11 )):
-      robot_x = random.randint(BOX_LEFT,BOX_RIGHT);
-      robot_y = random.randint(BOX_TOP,BOX_BOTTOM);
+
 
    #Game Logic
-   robot_x += int(axis2*ROBOT_SPEED);
-   robot_y += int(axis3*ROBOT_SPEED);
+
    
    player.update();
    #move class robots and check for collisions
@@ -206,27 +187,8 @@ while keepPlaying:
             moblist[i].broken=True;
             moblist[j].broken=True;
 
-   #allowing the robot to wrap
-   if(robot_x > BOX_RIGHT):
-      robot_x = BOX_LEFT;
-   if(robot_x < BOX_LEFT):
-      robot_x = BOX_RIGHT;
-   if(robot_y < BOX_TOP):
-      robot_y = BOX_BOTTOM;
-   if(robot_y > BOX_BOTTOM):
-      robot_y = BOX_TOP;
 
-   #allowing the robot2 to wrap
-   if(robot2_x > BOX_RIGHT):
-      robot2_x = BOX_LEFT;
-   if(robot2_x < BOX_LEFT):
-      robot2_x = BOX_RIGHT;
-   if(robot2_x < BOX_LEFT):
-      robot2_x = BOX_RIGHT;
-   if(robot2_y < BOX_TOP):
-      robot2_y = BOX_BOTTOM;
-   if(robot2_y > BOX_BOTTOM):
-      robot2_y = BOX_TOP;
+
 
 
    #Draw the screen
@@ -234,14 +196,9 @@ while keepPlaying:
    player.render();
    for robot in moblist:
       robot.render();
-   pygame.draw.rect(screen, (0,255,0), 
-(robot_x,robot_y,10,10), 0);
-   pygame.draw.rect(screen,(0,255,0), 
-(robot2_x,robot2_y,10,10), 0);
    pygame.display.flip();
 
     
 print "Game over"
-print "robot " + str(robot_x) + "," + str(robot_y)
-print "robot2 " + str(robot2_x) + "," + str(robot2_y)
+
 
