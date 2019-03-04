@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import random
 import os
 
@@ -18,13 +20,20 @@ def printBoard(board):
    for row in board:
       print(" ".join(row))
 
+#get input from the user
+def getInput(rowOrCol):
+   val = -1;
+   while(val < 0 or val > 10):
+      val = input(rowOrCol);
+   return val - 1;
+#Get user Column
+
+
 #Define Random Selection
 def rand_col(board):
    return random.randint(0, len(board) - 1)
-
 def rand_row(board):
    return random.randint(0, len(board) - 1)
-
 #Define Ship Position
 shipRow = rand_row(board)
 shipCol = rand_col(board)
@@ -36,4 +45,9 @@ print("Dev Col: ", shipCol)
 printBoard(board)
 
 for turn in range(20):
-   print("Turn: ", turn + 1)
+   print "Turn: " + str(turn + 1);
+   guessRow = getInput("row: ");
+   guessCol = getInput("col: ");
+   board[guessRow][guessCol] = 'x';
+   printBoard(board);
+
