@@ -30,6 +30,7 @@ if(pygame.joystick.get_count()):
    joystick.init();
 #load robot pictures
 greenbot = pygame.image.load('greenbot.png');
+playerimg = pygame.image.load('player.png');
  #game states
 keepPlaying = True;
 
@@ -50,7 +51,8 @@ class Character(mob):
       self.pos_x = 512;
       self.pos_y = 384;
    def render(self):
-      pygame.draw.circle(screen, (192,192,192),(self.pos_x,self.pos_y),5, 0);
+      #pygame.draw.circle(screen, (192,192,192),(self.pos_x,self.pos_y),5, 0);
+      screen.blit(playerimg, [self.pos_x-5, self.pos_y-5]);
    def update(self):
       #interpret the joystick axes
       self.pos_x += int(axis0*MAX_CHARACTER_SPEED);
