@@ -19,7 +19,7 @@ NUMBER_OF_WILDBOTS = 10;
 #Initialization
  #Screen
 screen = pygame.display.set_mode((BOX_RIGHT,BOX_BOTTOM	));
-pygame.display.set_caption('Lukes game window');
+pygame.display.set_caption('Robots');
  #Random Number Generator
 clock = pygame.time.Clock();
 random.seed();
@@ -28,6 +28,8 @@ pygame.joystick.init();
 if(pygame.joystick.get_count()):
    joystick = pygame.joystick.Joystick(0);
    joystick.init();
+#load robot pictures
+greenbot = pygame.image.load('greenbot.png');
  #game states
 keepPlaying = True;
 
@@ -77,7 +79,8 @@ class Lockbot(mob):
       if self.broken:
          pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
       else:
-         pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         #pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         screen.blit(greenbot, [self.pos_x-5, self.pos_y-5]);
    def update(self,x,y):
       #these robots follow you around
       if(not self.broken):
