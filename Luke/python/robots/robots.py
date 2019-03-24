@@ -32,6 +32,7 @@ if(pygame.joystick.get_count()):
 greenbot = pygame.image.load('greenbot.png');
 playerimg = pygame.image.load('player.png');
 junkimg = pygame.image.load('junk.png');
+wildbotimg = pygame.image.load('wildbot.png');
  #game states
 keepPlaying = True;
 
@@ -118,7 +119,8 @@ class Wildbot(mob):
          #pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
          screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
       else:
-         pygame.draw.rect(screen, (128,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         #pygame.draw.rect(screen, (128,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         screen.blit(wildbotimg, [self.pos_x-5, self.pos_y-5]);
    def update(self,x,y):
       # these robots bounce around and off the walls
       if(not self.broken):
