@@ -11,10 +11,10 @@ BOX_TOP = 0;
 BOX_BOTTOM = 768;
 BOX_LEFT = 0;
 BOX_RIGHT = 1024;
-MAX_CHARACTER_SPEED = 4;
-ROBOT_SPEED = 4;
-NUMBER_OF_LOCKBOTS = 10;
-NUMBER_OF_WILDBOTS = 10;
+MAX_CHARACTER_SPEED = 1.5;
+ROBOT_SPEED = 10;
+NUMBER_OF_LOCKBOTS = 25;
+NUMBER_OF_WILDBOTS = 25;
 
 #Initialization
  #Screen
@@ -82,10 +82,10 @@ class Lockbot(mob):
       # .. draw a robot
       if self.broken:
          #pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
-         screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
+         screen.blit(junkimg, [self.pos_x-10, self.pos_y-10]);
       else:
          #pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
-         screen.blit(greenbot, [self.pos_x-5, self.pos_y-5]);
+         screen.blit(greenbot, [self.pos_x-10, self.pos_y-10]);
    def update(self,x,y):
       #these robots follow you around
       if(not self.broken):
@@ -117,10 +117,10 @@ class Wildbot(mob):
       # .. draw a robot
       if self.broken:
          #pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
-         screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
+         screen.blit(junkimg, [self.pos_x-10, self.pos_y-10]);
       else:
          #pygame.draw.rect(screen, (128,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
-         screen.blit(wildbotimg, [self.pos_x-5, self.pos_y-5]);
+         screen.blit(wildbotimg, [self.pos_x-10, self.pos_y-10]);
    def update(self,x,y):
       # these robots bounce around and off the walls
       if(not self.broken):
@@ -183,8 +183,6 @@ while keepPlaying:
 
 
    #Game Logic
-
-   
    player.update();
    #move class robots and check for collisions
    for i in range(len(moblist)):
@@ -193,7 +191,7 @@ while keepPlaying:
          keepPlaying = False;
          print "you died";
       for j in range(i+1,len(moblist)):
-         if(moblist[i].collided(moblist[j].pos_x,moblist[j].pos_y,5)):
+         if(moblist[i].collided(moblist[j].pos_x,moblist[j].pos_y,10)):
             moblist[i].broken=True;
             moblist[j].broken=True;
 
