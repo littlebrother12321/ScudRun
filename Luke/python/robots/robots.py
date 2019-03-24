@@ -12,9 +12,9 @@ BOX_BOTTOM = 768;
 BOX_LEFT = 0;
 BOX_RIGHT = 1024;
 MAX_CHARACTER_SPEED = 1.5;
-ROBOT_SPEED = 10;
-NUMBER_OF_LOCKBOTS = 0;
-NUMBER_OF_WILDBOTS = 100;
+ROBOT_SPEED = 3;
+NUMBER_OF_LOCKBOTS = 10;
+NUMBER_OF_WILDBOTS = 10;
 
 #Initialization
  #Screen
@@ -111,7 +111,7 @@ class Wildbot(mob):
                                        ROBOT_SPEED),
                        random.randint(-ROBOT_SPEED,
                                        ROBOT_SPEED)];
-      self.velocity = [1, 1];
+      #self.velocity = [1, 1];
       self.broken = False;
    def render(self):
       # .. draw a robot
@@ -189,7 +189,7 @@ while keepPlaying:
    #move class robots and check for collisions
    for i in range(len(moblist)):
       moblist[i].update(player.pos_x,player.pos_y);
-      if(moblist[i].collided(player.pos_x,player.pos_y,3)):
+      if(moblist[i].collided(player.pos_x,player.pos_y,10)):
          keepPlaying = False;
          print "you died";
       for j in range(i+1,len(moblist)):
