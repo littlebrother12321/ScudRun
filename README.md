@@ -13,6 +13,7 @@ Dad is *so* in...
 
 *luke* I can't wait till james joins scudrun
 
+James is in too B-)
 
 
 
