@@ -1,5 +1,5 @@
 import random;
-max_number = 1000000;
+max_number = 1,000,000;
 random.seed();
 print "guesss a number between 1 and " + str(max_number); 
 
