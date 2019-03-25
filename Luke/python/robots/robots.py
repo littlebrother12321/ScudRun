@@ -35,6 +35,7 @@ junkimg = pygame.image.load('junk.png');
 wildbotimg = pygame.image.load('wildbot.png');
  #game states
 keepPlaying = True;
+paused = False;
 
 
 
@@ -143,8 +144,6 @@ class Wildbot(mob):
          return False;
 
 
-
-
 #setting up the game
 def reset_game():
    global keePlaying;
@@ -156,6 +155,15 @@ def reset_game():
    moblist += [Wildbot() for count in range(NUMBER_OF_WILDBOTS)];
    keepPlaying = True;
  
+#pause function
+def toggle_pause():
+   global paused;
+   if paused == True:
+      paused = False;
+   else:
+      paused = True;
+   print "paused is toggled";
+
 
 #Start the game
 reset_game();
@@ -170,6 +178,8 @@ while keepPlaying:
             player.tp_player_safe();
          if(joystick.get_button( 8 )):
             reset_game();
+         if(joystick.get_button( 0 )):
+            toggle_pause();
       if not hasattr(event, 'key'):
          continue;
       if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
@@ -185,17 +195,18 @@ while keepPlaying:
 
 
    #Game Logic
-   player.update();
-   #move class robots and check for collisions
-   for i in range(len(moblist)):
-      moblist[i].update(player.pos_x,player.pos_y);
-      if(moblist[i].collided(player.pos_x,player.pos_y,10)):
-         keepPlaying = False;
-         print "you died";
-      for j in range(i+1,len(moblist)):
-         if(moblist[i].collided(moblist[j].pos_x,moblist[j].pos_y,10)):
-            moblist[i].broken=True;
-            moblist[j].broken=True;
+   if not paused:
+      player.update();
+      #move class robots and check for collisions
+      for i in range(len(moblist)):
+         moblist[i].update(player.pos_x,player.pos_y);
+         if(moblist[i].collided(player.pos_x,player.pos_y,10)):
+            keepPlaying = False;
+            print "you died";
+         for j in range(i+1,len(moblist)):
+            if(moblist[i].collided(moblist[j].pos_x,moblist[j].pos_y,10)):
+               moblist[i].broken=True;
+               moblist[j].broken=True;
 
 
 
