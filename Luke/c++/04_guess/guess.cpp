@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdlib.h>
 
-#define HIGHEST_NUMBER 100
+#define HIGHEST_NUMBER 1000
 
 int main(void)
 {
@@ -23,7 +23,7 @@ int main(void)
      }
      if (guessedNumber > HIGHEST_NUMBER +1)
      {
-      std::cout <<"out of range reset the game" <<std::endl;
+      std::cout <<"out of range reseted the game" <<std::endl;
      }
      else if(guessedNumber>myNumber)
      {

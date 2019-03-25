@@ -137,8 +137,6 @@ class Wildbot(mob):
             self.velocity[1] *= -1;
    def collided(self,x,y,dist):
       if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
-         print "robot: " + str(self.pos_x) + "," + str(self.pos_y);
-         print "other: " + str(x) + "," + str(y);
          return True;
       else:
          return False;
