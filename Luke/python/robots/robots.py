@@ -13,6 +13,7 @@ BOX_LEFT = 0;
 BOX_RIGHT = 1024;
 MAX_CHARACTER_SPEED = 1.5;
 ROBOT_SPEED = 3;
+CREEPBOT_SPEED = 4;
 NUMBER_OF_LOCKBOTS = 10;
 NUMBER_OF_WILDBOTS = 10;
 NUMBER_OF_CREEPBOTS = 10;
@@ -89,16 +90,16 @@ class Lockbot(mob):
       else:
          #pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
          screen.blit(greenbot, [self.pos_x-5, self.pos_y-5]);
-   def update(self,x,y):
+   def update(self,mob):
       #these robots follow you around
       if(not self.broken):
-         if x > self.pos_x:
+         if mob.pos_x > self.pos_x:
             self.pos_x += 1; 
-         if x < self.pos_x:
+         if mob.pos_x < self.pos_x:
             self.pos_x -= 1;
-         if y > self.pos_y:
+         if mob.pos_y > self.pos_y:
             self.pos_y += 1; 
-         if y < self.pos_y:
+         if mob.pos_y < self.pos_y:
             self.pos_y -= 1;
    def collided(self,x,y,dist):
       if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
@@ -124,7 +125,7 @@ class Wildbot(mob):
       else:
          #pygame.draw.rect(screen, (128,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
          screen.blit(wildbotimg, [self.pos_x-5, self.pos_y-5]);
-   def update(self,x,y):
+   def update(self,mob):
       # these robots bounce around and off the walls
       if(not self.broken):
          self.pos_x += self.velocity[0];
@@ -156,16 +157,16 @@ class Creepbot:
       else:
          #pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
          screen.blit(creepbot, [self.pos_x-5, self.pos_y-5]);
-   def update(self,x,y):
+   def update(self,mob):
       #these robots follow you around
       if(not self.broken):
-         if x > self.pos_x:
+         if mob.pos_x > self.pos_x:
             self.pos_x += 1; 
-         if x < self.pos_x:
+         if mob.pos_x < self.pos_x:
             self.pos_x -= 1;
-         if y > self.pos_y:
+         if mob.pos_y > self.pos_y:
             self.pos_y += 1; 
-         if y < self.pos_y:
+         if mob.pos_y < self.pos_y:
             self.pos_y -= 1;
    def collided(self,x,y,dist):
       if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
@@ -230,7 +231,7 @@ while keepPlaying:
       player.update();
       #move class robots and check for collisions
       for i in range(len(moblist)):
-         moblist[i].update(player.pos_x,player.pos_y);
+         moblist[i].update(player);
          if(moblist[i].collided(player.pos_x,player.pos_y,10)):
             keepPlaying = False;
             print "you died";
