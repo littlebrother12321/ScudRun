@@ -30,6 +30,7 @@ if(pygame.joystick.get_count()):
    joystick = pygame.joystick.Joystick(0);
    joystick.init();
 #load robot pictures
+creepbot = pygame.image.load('creepbot.png')
 greenbot = pygame.image.load('greenbot.png');
 playerimg = pygame.image.load('player.png');
 junkimg = pygame.image.load('junk.png');
@@ -150,11 +151,11 @@ class Creepbot:
    def render(self):
       # .. draw a robot
       if self.broken:
-         pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         #pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
          screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
       else:
-         pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
-         #screen.blit(greenbot, [self.pos_x-5, self.pos_y-5]);
+         #pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         screen.blit(creepbot, [self.pos_x-5, self.pos_y-5]);
    def update(self,x,y):
       #these robots follow you around
       if(not self.broken):
