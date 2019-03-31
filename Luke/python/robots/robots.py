@@ -15,6 +15,7 @@ MAX_CHARACTER_SPEED = 1.5;
 ROBOT_SPEED = 3;
 NUMBER_OF_LOCKBOTS = 10;
 NUMBER_OF_WILDBOTS = 10;
+NUMBER_OF_CREEPBOTS = 10;
 
 #Initialization
  #Screen
@@ -141,6 +142,36 @@ class Wildbot(mob):
       else:
          return False;
 
+class Creepbot:
+   def __init__(self):
+      self.pos_x = random.randint(BOX_LEFT,BOX_RIGHT);
+      self.pos_y = random.randint(BOX_TOP,BOX_BOTTOM);
+      self.broken = False;
+   def render(self):
+      # .. draw a robot
+      if self.broken:
+         pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
+      else:
+         pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         #screen.blit(greenbot, [self.pos_x-5, self.pos_y-5]);
+   def update(self,x,y):
+      #these robots follow you around
+      if(not self.broken):
+         if x > self.pos_x:
+            self.pos_x += 1; 
+         if x < self.pos_x:
+            self.pos_x -= 1;
+         if y > self.pos_y:
+            self.pos_y += 1; 
+         if y < self.pos_y:
+            self.pos_y -= 1;
+   def collided(self,x,y,dist):
+      if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
+         return True;
+      else:
+         return False;
+
 
 #setting up the game
 def reset_game():
@@ -151,6 +182,7 @@ def reset_game():
    moblist = [];
    moblist = [Lockbot() for count in range(NUMBER_OF_LOCKBOTS)];
    moblist += [Wildbot() for count in range(NUMBER_OF_WILDBOTS)];
+   moblist += [Creepbot() for count in range(NUMBER_OF_CREEPBOTS)];
    keepPlaying = True;
  
 #pause function
