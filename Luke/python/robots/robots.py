@@ -13,7 +13,7 @@ BOX_LEFT = 0;
 BOX_RIGHT = 1024;
 MAX_CHARACTER_SPEED = 1.5;
 ROBOT_SPEED = 3;
-CREEPBOT_SPEED = 4;
+CREEPBOT_SPEED = 3;
 NUMBER_OF_LOCKBOTS = 10;
 NUMBER_OF_WILDBOTS = 10;
 NUMBER_OF_CREEPBOTS = 10;
@@ -61,13 +61,16 @@ class Character(mob):
       screen.blit(playerimg, [self.pos_x-5, self.pos_y-5]);
    def update(self):
       #interpret the joystick axes
-      self.pos_x += int(axis0*MAX_CHARACTER_SPEED);
-      self.pos_y += int(axis1*MAX_CHARACTER_SPEED);
+      x_speed =(axis0*MAX_CHARACTER_SPEED);
+      y_speed =(axis1*MAX_CHARACTER_SPEED);
+      self.pos_x += x_speed;
+      self.pos_y += y_speed;
+      self.speed = abs(x_speed) + abs(y_speed);
       #limit the character to the game window
       if(self.pos_x > BOX_RIGHT):
          self.pos_x = BOX_RIGHT;
       if(self.pos_x < BOX_LEFT):
-          self.pos_x = BOX_LEFT;
+         self.pos_x = BOX_LEFT;
       if(self.pos_y < BOX_TOP):
          self.pos_y = BOX_TOP;
       if(self.pos_y > BOX_BOTTOM):
@@ -161,13 +164,13 @@ class Creepbot:
       #these robots follow you around
       if(not self.broken):
          if mob.pos_x > self.pos_x:
-            self.pos_x += 1; 
+            self.pos_x += mob.speed; 
          if mob.pos_x < self.pos_x:
-            self.pos_x -= 1;
+            self.pos_x -= mob.speed;
          if mob.pos_y > self.pos_y:
-            self.pos_y += 1; 
+            self.pos_y += mob.speed; 
          if mob.pos_y < self.pos_y:
-            self.pos_y -= 1;
+            self.pos_y -= mob.speed;
    def collided(self,x,y,dist):
       if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
          return True;
@@ -200,7 +203,7 @@ def toggle_pause():
 #Start the game
 reset_game();
 while keepPlaying:
-   clock.tick(60);
+   clock.tick(900);
    #Handle Events (key press)
    for event in pygame.event.get():
       if event.type == pygame.QUIT:
