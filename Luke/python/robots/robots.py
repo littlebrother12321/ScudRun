@@ -32,11 +32,11 @@ if(pygame.joystick.get_count()):
    joystick = pygame.joystick.Joystick(0);
    joystick.init();
 #load robot pictures
-creepbot = pygame.image.load('creepbot.png')
-greenbot = pygame.image.load('greenbot.png');
-playerimg = pygame.image.load('player.png');
-junkimg = pygame.image.load('junk.png');
-wildbotimg = pygame.image.load('wildbot.png');
+creepbot = pygame.image.load('images/creepbot.png')
+greenbot = pygame.image.load('images/greenbot.png');
+playerimg = pygame.image.load('images/player.png');
+junkimg = pygame.image.load('images/junk.png');
+wildbotimg = pygame.image.load('images/wildbot.png');
  #game states
 keepPlaying = True;
 paused = False;

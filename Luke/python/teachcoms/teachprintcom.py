@@ -1,0 +1,12 @@
+print"How to use the print cammand"
+print"type print in your text editor"
+print"then open quotes"
+print"type what you want in text editor after quotes"
+print"then close quotes"
+print"click the 'save' button in the top-right corner"
+print"open terminal"
+print"then type (the name of file)"
+print"then press 'enter' on your keybord"
+print"your text should come up"
+print"in your terminal"
+
