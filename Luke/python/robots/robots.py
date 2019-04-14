@@ -135,14 +135,14 @@ class Wildbot(mob):
       if(not self.broken):
          self.pos_x += self.velocity[0];
          self.pos_y += self.velocity[1];
-         if self.pos_x < BOX_LEFT:
+         if self.pos_x < BOX_LEFT or self.pos_x > BOX_RIGHT:
             self.velocity[0] *= -1;
-         if self.pos_x > BOX_RIGHT:
-            self.velocity[0] *= -1;
-         if self.pos_y < BOX_TOP:
+            self.velocity[1] = random.randint(-ROBOT_SPEED,
+                                       ROBOT_SPEED);
+         if self.pos_y < BOX_TOP or self.pos_y > BOX_BOTTOM:
             self.velocity[1] *= -1;
-         if self.pos_y > BOX_BOTTOM:
-            self.velocity[1] *= -1;
+            self.velocity[0] = random.randint(-ROBOT_SPEED,
+                                       ROBOT_SPEED);
    def collided(self,x,y,dist):
       if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
          return True;
