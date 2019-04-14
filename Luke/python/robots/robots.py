@@ -5,6 +5,7 @@
 
 import pygame;
 import random;
+import math;
 
 #Setting Constants
 BOX_TOP = 0;
@@ -61,11 +62,12 @@ class Character(mob):
       screen.blit(playerimg, [self.pos_x-5, self.pos_y-5]);
    def update(self):
       #interpret the joystick axes
-      x_speed =(axis0*MAX_CHARACTER_SPEED);
-      y_speed =(axis1*MAX_CHARACTER_SPEED);
+      x_speed =float(axis0*MAX_CHARACTER_SPEED);
+      y_speed =float(axis1*MAX_CHARACTER_SPEED);
       self.pos_x += x_speed;
       self.pos_y += y_speed;
-      self.speed = abs(x_speed) + abs(y_speed);
+      #self.speed = abs(x_speed) + abs(y_speed);
+      self.speed = math.sqrt(x_speed*x_speed+y_speed*y_speed);
       #limit the character to the game window
       if(self.pos_x > BOX_RIGHT):
          self.pos_x = BOX_RIGHT;
