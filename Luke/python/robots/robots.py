@@ -60,6 +60,13 @@ class mob:
       pass
    def update(self):
       pass
+   def collided(self,x,y,dist):
+      if self.broken:
+         return False;
+      if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
+         return True;
+      else:
+         return False;
 
 class Character(mob):
    def __init__(self):
@@ -116,11 +123,13 @@ class Lockbot(mob):
             self.pos_y += 1; 
          if mob.pos_y < self.pos_y:
             self.pos_y -= 1;
-   def collided(self,x,y,dist):
-      if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
-         return True;
-      else:
-         return False;
+#   def collided(self,x,y,dist):
+#      if self.broken:
+#         return False:
+#      if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
+#         return True;
+#      else:
+#         return False;
 
 class Wildbot(mob):
    def __init__(self):
@@ -157,13 +166,13 @@ class Wildbot(mob):
                                        ROBOT_SPEED);
             bounceSound.play();
             #pygame.mixer.Channel(1).play(pygame.mixer.Sound('sounds/bounceSound'));
-   def collided(self,x,y,dist):
-      if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
-         return True;
-      else:
-         return False;
+#   def collided(self,x,y,dist):
+#      if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
+#         return True;
+#      else:
+#         return False;
 
-class Creepbot:
+class Creepbot(mob):
    def __init__(self):
       self.pos_x = random.randint(BOX_LEFT,BOX_RIGHT);
       self.pos_y = random.randint(BOX_TOP,BOX_BOTTOM);
@@ -187,11 +196,11 @@ class Creepbot:
             self.pos_y += mob.speed; 
          if mob.pos_y < self.pos_y:
             self.pos_y -= mob.speed;
-   def collided(self,x,y,dist):
-      if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
-         return True;
-      else:
-         return False;
+#   def collided(self,x,y,dist):
+#      if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
+#         return True;
+#      else:
+#         return False;
 
 
 #setting up the game
@@ -251,12 +260,14 @@ while keepPlaying:
       #move class robots and check for collisions
       for i in range(len(moblist)):
          moblist[i].update(player);
+         #Check for collistion with Player
          if(moblist[i].collided(player.pos_x,player.pos_y,10)):
             keepPlaying = False;
             loseSound.play();
             #pygame.mixer.Channel(2).play(pygame.mixer.Sound('sounds/loseSound'));
             pygame.time.wait(1000);
             print "you died";
+         #Check for collisions with other Bots
          for j in range(i+1,len(moblist)):
             if(moblist[i].collided(moblist[j].pos_x,moblist[j].pos_y,10)):
                moblist[i].broken=True;
