@@ -45,6 +45,8 @@ winSound = pygame.mixer.Sound('sounds/win.wav');
 loseSound = pygame.mixer.Sound('sounds/lose.wav');
 teleportSound = pygame.mixer.Sound('sounds/teleport.wav');
 bounceSound = pygame.mixer.Sound('sounds/bounce.wav');
+puaseSound = pygame.mixer.Sound('sounds/unpuase.wav');
+unpuaseSound = pygame.mixer.Sound('sounds/puase.wav');
 #game states
 keepPlaying = True;
 paused = False;
@@ -220,8 +222,10 @@ def toggle_pause():
    global paused;
    if paused == True:
       paused = False;
+      unpuaseSound.play();
    else:
       paused = True;
+      puaseSound.play();
    print "paused is toggled";
 
 
