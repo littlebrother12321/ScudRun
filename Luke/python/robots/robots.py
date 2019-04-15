@@ -37,7 +37,15 @@ greenbot = pygame.image.load('images/greenbot.png');
 playerimg = pygame.image.load('images/player.png');
 junkimg = pygame.image.load('images/junk.png');
 wildbotimg = pygame.image.load('images/wildbot.png');
- #game states
+#load sound effects
+pygame.mixer.init();
+pygame.mixer.set_num_channels(5)
+collisionSound = pygame.mixer.Sound('sounds/collision.wav');
+winSound = pygame.mixer.Sound('sounds/win.wav');
+loseSound = pygame.mixer.Sound('sounds/lose.wav');
+teleportSound = pygame.mixer.Sound('sounds/teleport.wav');
+bounceSound = pygame.mixer.Sound('sounds/bounce.wav');
+#game states
 keepPlaying = True;
 paused = False;
 
@@ -81,6 +89,8 @@ class Character(mob):
       self.pos_x = random.randint(BOX_LEFT,BOX_RIGHT); 
       self.pos_y = random.randint(BOX_TOP,BOX_BOTTOM);
       print "teleporting..."
+      teleportSound.play();
+      #pygame.mixer.Channel(0).play(pygame.mixer.Sound('sounds/teleportSound'));
 
 class Lockbot(mob):
    def __init__(self):
@@ -139,10 +149,14 @@ class Wildbot(mob):
             self.velocity[0] *= -1;
             self.velocity[1] = random.randint(-ROBOT_SPEED,
                                        ROBOT_SPEED);
+            bounceSound.play();
+            #pygame.mixer.Channel(1).play(pygame.mixer.Sound('sounds/bounceSound'));
          if self.pos_y < BOX_TOP or self.pos_y > BOX_BOTTOM:
             self.velocity[1] *= -1;
             self.velocity[0] = random.randint(-ROBOT_SPEED,
                                        ROBOT_SPEED);
+            bounceSound.play();
+            #pygame.mixer.Channel(1).play(pygame.mixer.Sound('sounds/bounceSound'));
    def collided(self,x,y,dist):
       if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
          return True;
@@ -239,11 +253,16 @@ while keepPlaying:
          moblist[i].update(player);
          if(moblist[i].collided(player.pos_x,player.pos_y,10)):
             keepPlaying = False;
+            loseSound.play();
+            #pygame.mixer.Channel(2).play(pygame.mixer.Sound('sounds/loseSound'));
+            pygame.time.wait(1000);
             print "you died";
          for j in range(i+1,len(moblist)):
             if(moblist[i].collided(moblist[j].pos_x,moblist[j].pos_y,10)):
                moblist[i].broken=True;
                moblist[j].broken=True;
+               collisionSound.play();
+               #pygame.mixer.Channel(3).play(pygame.mixer.Sound('sounds/collisionSound'));
 
 
 
