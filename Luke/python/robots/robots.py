@@ -62,10 +62,10 @@ class mob:
       pass
    def update(self):
       pass
-   def collided(self,x,y,dist):
-      if self.broken:
+   def collided(self,mob,dist):
+      if self.broken and mob.broken:
          return False;
-      if((abs(x - self.pos_x) <dist) and (abs(y - self.pos_y) <dist)):
+      if((abs(mob.pos_x - self.pos_x) <dist) and (abs(mob.pos_y - self.pos_y) <dist)):
          return True;
       else:
          return False;
@@ -74,6 +74,7 @@ class Character(mob):
    def __init__(self):
       self.pos_x = 512;
       self.pos_y = 384;
+      self.broken = False;
    def render(self):
       #pygame.draw.circle(screen, (192,192,192),(self.pos_x,self.pos_y),5, 0);
       screen.blit(playerimg, [self.pos_x-5, self.pos_y-5]);
@@ -265,7 +266,7 @@ while keepPlaying:
       for i in range(len(moblist)):
          moblist[i].update(player);
          #Check for collistion with Player
-         if(moblist[i].collided(player.pos_x,player.pos_y,10)):
+         if(moblist[i].collided(player,10)):
             keepPlaying = False;
             loseSound.play();
             #pygame.mixer.Channel(2).play(pygame.mixer.Sound('sounds/loseSound'));
@@ -273,7 +274,7 @@ while keepPlaying:
             print "you died";
          #Check for collisions with other Bots
          for j in range(i+1,len(moblist)):
-            if(moblist[i].collided(moblist[j].pos_x,moblist[j].pos_y,10)):
+            if(moblist[i].collided(moblist[j],10)):
                moblist[i].broken=True;
                moblist[j].broken=True;
                collisionSound.play();
