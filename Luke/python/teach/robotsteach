@@ -1,0 +1,6 @@
+print"robots teaching joystick"
+print"joystick button named 1 = puase game"
+print"joystick push controll stick = teleport"
+print"joystick button named start = kill game"
+print"joystick button named select = reset game"
+print"joystick move controll stick = move player"
