@@ -77,7 +77,14 @@ class Character(mob):
       self.broken = False;
    def render(self):
       #pygame.draw.circle(screen, (192,192,192),(self.pos_x,self.pos_y),5, 0);
-      screen.blit(playerimg, [self.pos_x-5, self.pos_y-5]);
+      #screen.blit(playerimg, [self.pos_x-5, self.pos_y-5]);
+      if self.broken == True:
+         #screen.blit(junkimg) rotated_self == pygame.transform.rotate(self, direction);
+         screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
+         print "Rendering dead player";
+      else:
+         #self.broken == False;
+         screen.blit(playerimg, [self.pos_x-5, self.pos_y-5]);
    def update(self):
       #interpret the joystick axes
       x_speed =float(axis0*MAX_CHARACTER_SPEED);
@@ -267,10 +274,10 @@ while keepPlaying:
          moblist[i].update(player);
          #Check for collistion with Player
          if(moblist[i].collided(player,10)):
+            player.broken = True;
             keepPlaying = False;
             loseSound.play();
             #pygame.mixer.Channel(2).play(pygame.mixer.Sound('sounds/loseSound'));
-            pygame.time.wait(1000);
             print "you died";
          #Check for collisions with other Bots
          for j in range(i+1,len(moblist)):
@@ -279,11 +286,6 @@ while keepPlaying:
                moblist[j].broken=True;
                collisionSound.play();
                #pygame.mixer.Channel(3).play(pygame.mixer.Sound('sounds/collisionSound'));
-
-
-
-
-
    #Draw the screen
    screen.fill((12,0,128));
    player.render();
@@ -291,7 +293,7 @@ while keepPlaying:
       robot.render();
    pygame.display.flip();
 
-    
+pygame.time.wait(1000);    
 print "Game over"
 
 
