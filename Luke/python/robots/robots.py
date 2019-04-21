@@ -32,8 +32,8 @@ if(pygame.joystick.get_count()):
    joystick = pygame.joystick.Joystick(0);
    joystick.init();
 #load robot pictures
-creepbot = pygame.image.load('images/creepbot.png')
-greenbot = pygame.image.load('images/greenbot.png');
+creepbotimg = pygame.image.load('images/creepbot.png')
+greenbotimg = pygame.image.load('images/greenbot.png');
 playerimg = pygame.image.load('images/player.png');
 junkimg = pygame.image.load('images/junk.png');
 wildbotimg = pygame.image.load('images/wildbot.png');
@@ -79,8 +79,8 @@ class Character(mob):
       #pygame.draw.circle(screen, (192,192,192),(self.pos_x,self.pos_y),5, 0);
       #screen.blit(playerimg, [self.pos_x-5, self.pos_y-5]);
       if self.broken == True:
-         #screen.blit(junkimg) rotated_self == pygame.transform.rotate(self, direction);
-         screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
+         screen.blit(pygame.transform.rotate(playerimg, -90),[self.pos_x-5, self.pos_y-5]);
+         #screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
          print "Rendering dead player";
       else:
          #self.broken == False;
@@ -121,7 +121,7 @@ class Lockbot(mob):
          screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
       else:
          #pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
-         screen.blit(greenbot, [self.pos_x-5, self.pos_y-5]);
+         screen.blit(greenbotimg, [self.pos_x-5, self.pos_y-5]);
    def update(self,mob):
       #these robots follow you around
       if(not self.broken):
@@ -194,7 +194,7 @@ class Creepbot(mob):
          screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
       else:
          #pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
-         screen.blit(creepbot, [self.pos_x-5, self.pos_y-5]);
+         screen.blit(creepbotimg, [self.pos_x-5, self.pos_y-5]);
    def update(self,mob):
       #these robots follow you around
       if(not self.broken):
