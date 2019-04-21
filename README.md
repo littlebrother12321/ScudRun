@@ -15,4 +15,4 @@ Dad is *so* in...
 
 James is in too B-)
 
-*luke* you here noe james
+*luke* you here now james
