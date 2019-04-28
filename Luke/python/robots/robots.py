@@ -18,11 +18,13 @@ CREEPBOT_SPEED = 3;
 NUMBER_OF_LOCKBOTS = 10;
 NUMBER_OF_WILDBOTS = 10;
 NUMBER_OF_CREEPBOTS = 10;
+NUMBER_OF_NURSEBOTS = 10;
+NUMBER_OF_MEDKITS = 10;
 
 #Initialization
  #Screen
 screen = pygame.display.set_mode((BOX_RIGHT,BOX_BOTTOM	));
-pygame.display.set_caption('Robots');
+pygame.display.set_caption('Robots game');
  #Random Number Generator
 clock = pygame.time.Clock();
 random.seed();
@@ -37,6 +39,8 @@ greenbotimg = pygame.image.load('images/greenbot.png');
 playerimg = pygame.image.load('images/player.png');
 junkimg = pygame.image.load('images/junk.png');
 wildbotimg = pygame.image.load('images/wildbot.png');
+nursebotimg = pygame.image.load('images/nursebot.png');
+medkitimg = pygame.image.load('images/medkit.png');
 #load sound effects
 pygame.mixer.init();
 pygame.mixer.set_num_channels(5)
@@ -55,6 +59,22 @@ paused = False;
 
 #define functions
    #define classes
+class thing:
+   def __init__(self):
+      pass
+   def render(self):
+      pass
+   def update(self):
+      pass
+   def collided(self,mob,dist):
+      if self.broken and mob.broken:
+         return False;
+      if((abs(thing.pos_x - self.pos_x) <dist) and (abs(thing.pos_y - self.pos_y) <dist)):
+         return True;
+      else:
+         return False;
+
+
 class mob:
    def __init__(self):
       pass
@@ -81,7 +101,6 @@ class Character(mob):
       if self.broken == True:
          screen.blit(pygame.transform.rotate(playerimg, -90),[self.pos_x-5, self.pos_y-5]);
          #screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
-         print "Rendering dead player";
       else:
          #self.broken == False;
          screen.blit(playerimg, [self.pos_x-5, self.pos_y-5]);
@@ -212,17 +231,63 @@ class Creepbot(mob):
 #      else:
 #         return False;
 
+class Nursebot(mob):
+   def __init__(self):
+      self.pos_x = random.randint(BOX_LEFT,BOX_RIGHT);
+      self.pos_y = random.randint(BOX_TOP,BOX_BOTTOM);
+      self.broken = False;
+   def render(self):
+      # .. draw a robot
+      if self.broken:
+        #pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
+      else:
+         #pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         screen.blit(nursebotimg, [self.pos_x-5, self.pos_y-5]);
+   def update(self,mob):
+      #these robots follow you around
+      if(not self.broken):
+         pass
+         if mob.pos_x > self.pos_x:
+            self.pos_x += mob.speed; 
+         if mob.pos_x < self.pos_x:
+            self.pos_x -= mob.speed;
+         if mob.pos_y > self.pos_y:
+            self.pos_y += mob.speed; 
+         if mob.pos_y < self.pos_y:
+            self.pos_y -= mob.speed;
+
+class Medkit(thing):
+   def __init__(self):
+      self.pos_x = random.randint(BOX_LEFT,BOX_RIGHT);
+      self.pos_y = random.randint(BOX_TOP,BOX_BOTTOM);
+      self.broken = False;
+   def render(self):
+      # .. draw a medkit
+      if self.broken:
+         #pygame.draw.rect(screen, (0,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         screen.blit(junkimg, [self.pos_x-5, self.pos_y-5]);
+      else:
+         #pygame.draw.rect(screen, (255,0,0),(self.pos_x-5,self.pos_y-5,10,10), 0);
+         screen.blit(medkitimg, [self.pos_x-5, self.pos_y-5]);
+   def update(self):
+      pass
 
 #setting up the game
 def reset_game():
    global keePlaying;
    global player
    global moblist;
+   global thinglist;
    player = Character();
    moblist = [];
    moblist = [Lockbot() for count in range(NUMBER_OF_LOCKBOTS)];
    moblist += [Wildbot() for count in range(NUMBER_OF_WILDBOTS)];
    moblist += [Creepbot() for count in range(NUMBER_OF_CREEPBOTS)];
+   moblist += [Nursebot() for count in range(NUMBER_OF_NURSEBOTS)];
+
+   thinglist = [];
+   thinglist += [Medkit() for count in range(NUMBER_OF_MEDKITS)];
    keepPlaying = True;
  
 #pause function
@@ -256,15 +321,16 @@ while keepPlaying:
          continue;
       if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
          keepPlaying = False;
+      if event.key == pygame.K_p:
+         puased = True;
 
    #Read the Joystick
    axis0 = joystick.get_axis( 0 );
    axis1 = joystick.get_axis( 1 );
-   axis2 = joystick.get_axis( 2 );
-   axis3 = joystick.get_axis( 3 );
+#   axis2 = joystick.get_axis( 2 );
+#   axis3 = joystick.get_axis( 3 );
    if(joystick.get_button( 9 )):
       keepPlaying = False;
-
 
    #Game Logic
    if not paused:
@@ -291,6 +357,8 @@ while keepPlaying:
    player.render();
    for robot in moblist:
       robot.render();
+   for thing in thinglist:
+      thing.render();
    pygame.display.flip();
 
 pygame.time.wait(1000);    
