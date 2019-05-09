@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#!/usr/bin/python
 import pygame
 from pygame.locals import *
 
@@ -28,11 +28,23 @@ pygame.display.flip()
 
 crashed = false
 
+# Player Class
+class player:
+    x = 0
+    y = 0
+
+    def __init__(self, initX, initY):
+        #TODO
+
 # Event loop
 while not crashed:
     for event in pygame.event.get():
         if event.type == QUIT:
             crashed = true
+            print "Game Over"
+        elif event.type == KEYDOWN:
+            if event.key == K_UP or K_w:
+
 
     screen.blit(background, (0, 0))
     pygame.display.flip()
