@@ -51,9 +51,13 @@ teleportSound = pygame.mixer.Sound('sounds/teleport.wav');
 bounceSound = pygame.mixer.Sound('sounds/bounce.wav');
 puaseSound = pygame.mixer.Sound('sounds/unpuase.wav');
 unpuaseSound = pygame.mixer.Sound('sounds/puase.wav');
+#load screen text
+pygame.font.init();
+scorefont = pygame.font.Font(None,30);
 #game states
 keepPlaying = True;
 paused = False;
+
 
 
 
@@ -305,7 +309,7 @@ def toggle_pause():
 #Start the game
 reset_game();
 while keepPlaying:
-   clock.tick(900);
+   clock.tick(1000);
    #Handle Events (key press)
    for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -358,10 +362,14 @@ while keepPlaying:
    for robot in moblist:
       robot.render();
    for thing in thinglist:
+      robot.render();
       thing.render();
+   if keepPlaying == False:
+      game_over_text = scorefont.render("game over", 1, (255,255,255));
+      screen.blit(game_over_text, [512,394]);
    pygame.display.flip();
-
-pygame.time.wait(1000);    
+pygame.time.wait(1000);
+#render (str"game over", 1, (0,0,0));
 print "Game over"
 
 
