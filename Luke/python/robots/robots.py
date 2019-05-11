@@ -55,6 +55,7 @@ unpuaseSound = pygame.mixer.Sound('sounds/puase.wav');
 pygame.font.init();
 scorefont = pygame.font.Font(None,30);
 screenText = "Nothing";
+screen_text = "Nothing";
 #game states
 keepPlaying = True;
 paused = False;
@@ -301,9 +302,11 @@ def toggle_pause():
    if paused == True:
       paused = False;
       unpuaseSound.play();
+      screen_text = "______";
    else:
       paused = True;
-      puaseSound.play(); 
+      puaseSound.play();
+      screen_text = "PAUSED";
    print "puased is toggled";
 
 
@@ -324,7 +327,10 @@ while keepPlaying:
             reset_game();
          if(joystick.get_button( 0 )):
             toggle_pause();
-            screenText = "PAUSED";
+            if paused == True:
+               screen_text = "PAUSED";
+            if paused == False:
+               screen_text = "____";
       if not hasattr(event, 'key'):
          continue;
       if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
@@ -376,9 +382,10 @@ while keepPlaying:
       screen.blit(gameOverText, [512,390]);
 #      game_over_text = scorefont.render(, 1, (255,255,255));
 #      screen.blit(game_over_text, [512,394]);
+   if keepPlaying == True:
+      KeepPlayingText = scorefont.render(screen_text, 1, (255,255,255));
+      screen.blit(KeepPlayingText, [512,390]);
    pygame.display.flip();
 pygame.time.wait(1000);
 #render (str"game over", 1, (0,0,0));
 print "Game over"
-
-
