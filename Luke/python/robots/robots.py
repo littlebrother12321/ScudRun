@@ -54,6 +54,7 @@ unpuaseSound = pygame.mixer.Sound('sounds/puase.wav');
 #load screen text
 pygame.font.init();
 scorefont = pygame.font.Font(None,30);
+screenText = "Nothing";
 #game states
 keepPlaying = True;
 paused = False;
@@ -302,8 +303,8 @@ def toggle_pause():
       unpuaseSound.play();
    else:
       paused = True;
-      puaseSound.play();
-   print "paused is toggled";
+      puaseSound.play(); 
+   print "puased is toggled";
 
 
 #Start the game
@@ -314,19 +315,23 @@ while keepPlaying:
    for event in pygame.event.get():
       if event.type == pygame.QUIT:
          keepPlaying = False;
+         screenText = "GAME OVER:  Quitter";
       if event.type == pygame.JOYBUTTONDOWN:
-         if(joystick.get_button( 10 )):
-            player.tp_player_safe();
+         if not paused:
+            if(joystick.get_button( 10 )):
+               player.tp_player_safe();
          if(joystick.get_button( 8 )):
             reset_game();
          if(joystick.get_button( 0 )):
             toggle_pause();
+            screenText = "PAUSED";
       if not hasattr(event, 'key'):
          continue;
       if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
          keepPlaying = False;
+         screenText = "GAME OVER:  Quitter";
       if event.key == pygame.K_p:
-         puased = True;
+         toggle_pause;
 
    #Read the Joystick
    axis0 = joystick.get_axis( 0 );
@@ -335,6 +340,7 @@ while keepPlaying:
 #   axis3 = joystick.get_axis( 3 );
    if(joystick.get_button( 9 )):
       keepPlaying = False;
+      screenText = "GAME OVER:  Quitter";
 
    #Game Logic
    if not paused:
@@ -349,6 +355,7 @@ while keepPlaying:
             loseSound.play();
             #pygame.mixer.Channel(2).play(pygame.mixer.Sound('sounds/loseSound'));
             print "you died";
+            screenText = "You died   GAME OVER";
          #Check for collisions with other Bots
          for j in range(i+1,len(moblist)):
             if(moblist[i].collided(moblist[j],10)):
@@ -365,8 +372,10 @@ while keepPlaying:
       robot.render();
       thing.render();
    if keepPlaying == False:
-      game_over_text = scorefont.render("game over", 1, (255,255,255));
-      screen.blit(game_over_text, [512,394]);
+      gameOverText = scorefont.render(screenText, 1, (255,255,255));
+      screen.blit(gameOverText, [512,390]);
+#      game_over_text = scorefont.render(, 1, (255,255,255));
+#      screen.blit(game_over_text, [512,394]);
    pygame.display.flip();
 pygame.time.wait(1000);
 #render (str"game over", 1, (0,0,0));
