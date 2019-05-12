@@ -147,6 +147,7 @@ while 1:
     # USER INPUT
    clock.tick(30);
    for event in pygame.event.get():
+      for event in pygame.event.get():
        if not hasattr(event, 'key'): continue;
        down = event.type == KEYDOWN #Key down or up?
        if event.key == K_RIGHT: k_right = down * -5;
@@ -155,6 +156,7 @@ while 1:
        elif event.key == K_DOWN: k_down = down * -2;
        elif event.key == K_ESCAPE: sys.exit(0) #quit the game
        elif event.key == K_q: sys.exit(0) #quit the game
+       
    screen.fill(BLUE_BG);
 
    # SIMULATION
