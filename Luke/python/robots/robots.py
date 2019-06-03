@@ -406,9 +406,27 @@ def quit_menu():
 #   screen_text = "do you want to play again?";
    pygame.display.flip();
    pygame.time.wait(1000);
+   waiting_for_user = True;
+   while waiting_for_user:
+      for event in pygame.event.get():
+         if event.type == pygame.QUIT:
+            keepPlaying = False;
+            screenText = "GAME OVER:  Quitter";
+         if not hasattr(event, 'key'):
+            continue;
+            screenText = "GAME OVER:  Quitter";
+         if event.key == pygame.K_y:
+            waiting_for_user = False;
+            return True;
+         if event.key == pygame.K_n:
+            waiting_for_user = False;
+            return False;
+
 
 
 #Start the game
-reset_game();
-play_level();
-quit_menu();
+playing = True;
+while playing:
+   reset_game();
+   play_level();
+   playing = quit_menu();
