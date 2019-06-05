@@ -403,8 +403,10 @@ def quit_menu():
    global screen_text;
    KeepPlayingText = scorefont.render("Do you want to play again?", 1, (255,255,255));
    screen.blit(KeepPlayingText, [400,415]);
+   pygame.display.flip();
+   pygame.time.wait(1000)
    KeepPlayingText = scorefont.render("(if yes press y if no press n)", 1, (255,255,255));
-   screen.blit(KeepPlayingText, [400,430]);
+   screen.blit(KeepPlayingText, [400,435]);
 #   screen_text = "do you want to play again?";
    pygame.display.flip();
    pygame.time.wait(1000);
