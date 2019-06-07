@@ -4,19 +4,18 @@ import random
 import os
 import curses
 
-
 def intro(win):
     #Game Message
     win.addstr("\nYou have 20 turns to guess the position of a 1 x 1 battleship\n");
-    win.addstr("Please Enter Your Answer in the Form of an Integer plz\n");
-    win.addstr("Things will break otherwise...\n");
-
+    win.addstr("Move the cursor with the arrows. SPACE to fire\n");
 
 class game:
     def rand_col(self):
         return random.randint(0, len(self.board[0]) - 1)
     def rand_row(self):
         return random.randint(0, len(self.board) - 1)
+    def shot(self,row,col):
+        self.board[row][col] = 'x'
     def __init__(self):
         self.board = []
         for x in range(10):
@@ -85,8 +84,8 @@ def main(win):
     win.nodelay(True)
     key=""
     win.clear()
-    intro(win)
     iface.printBoard(win)
+    intro(win)
     #win.addstr("Detected key:")
     while 1:
         try:
@@ -112,6 +111,10 @@ def main(win):
             if key == "KEY_DOWN":
                  iface.cursorVert(False)
                  iface.printBoard(win)
+            if key == " ":
+                 theGame.shot(iface.cursor[0],iface.cursor[1])
+                 iface.printBoard(win)
+                 win.addstr("SPACE" + "\n")
             win.addstr(key + "\n")
             win.addstr("0 "+ str(iface.cursor[0]) + "\n")    
             win.addstr("1 "+ str(iface.cursor[1]) + "\n")    
