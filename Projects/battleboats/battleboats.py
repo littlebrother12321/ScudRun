@@ -15,7 +15,12 @@ class game:
     def rand_row(self):
         return random.randint(0, len(self.board) - 1)
     def shot(self,row,col):
-        self.board[row][col] = 'x'
+        if row == self.shipRow and col == self.shipCol:
+           self.board[row][col] = '#'
+           return True
+        else:
+           self.board[row][col] = chr(46)
+           return False
     def __init__(self):
         self.board = []
         for x in range(10):
