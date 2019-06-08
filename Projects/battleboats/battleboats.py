@@ -9,25 +9,38 @@ def intro(win):
     win.addstr("\nYou have 20 turns to guess the position of a 1 x 1 battleship\n");
     win.addstr("Move the cursor with the arrows. SPACE to fire\n");
 
+class Space:
+    def __init__(self):
+        self.isBoat = False;
+        self.cleared = False;
+
 class Board:
     def __init__(self,rows,cols):
          self.rows = rows
          self.cols = cols
-         self.field = []
+         self.spaces = []
+         self.disp = []
          for x in range(rows):
-             self.field.append(['O'] * cols)
+             self.spaces.append(Space() for count in range(cols))
+             self.disp.append(['O'] * cols)
 
 class Boat:
     def __init__(self, size, name):
         self.size = size
         placed = False
     def checkPlacement(self,board):
+        #TODO: See if the boad is contained within the board
         pass
     def checkPlacement(self,boat):
+        #TODO: See if the boat conflicts with other boats
         pass
     def autoPlace(self,boats,board):
         self.row = random.randint(0,board.rows)
         self.col = random.randint(0,board.cols)
+        self.checkPlacement(board)
+        for boat in boats:
+            self.checkPlacement(boat)
+        #board.spaces[self.row][self.col].isBoat = True;
 
 class Game:
     def rand_col(self):
@@ -36,10 +49,10 @@ class Game:
         return random.randint(0, self.board.rows - 1)
     def shot(self,row,col):
         if row == self.shipRow and col == self.shipCol:
-           self.board.field[row][col] = '#'
+           self.board.disp[row][col] = '#'
            return True
         else:
-           self.board.field[row][col] = chr(46)
+           self.board.disp[row][col] = chr(46)
            return False
     def createBoats(self):
         self.allBoats = []
@@ -60,6 +73,7 @@ class Game:
         self.activeBoats = [];
         for boat in self.allBoats:
             boat.autoPlace(self.activeBoats,self.board)
+            self.activeBoats.append(boat)
     def placeBoats(self):
         self.placeBoatsAuto()
         #TODO: branch for manual boat placement
@@ -92,11 +106,11 @@ class GameInterface:
         for row in range(theGame.board.rows):
             if(row == self.cursor[0]):
                 if(0 == self.cursor[1]):
-                    win.addstr(" ".join(theGame.board.field[row][0:self.cursor[1]]) + "[" + theGame.board.field[row][self.cursor[1]] + "]" + " ".join(theGame.board.field[row][self.cursor[1]+1:len(theGame.board.field[row])]) + "\n")
+                    win.addstr(" ".join(theGame.board.disp[row][0:self.cursor[1]]) + "[" + theGame.board.disp[row][self.cursor[1]] + "]" + " ".join(theGame.board.disp[row][self.cursor[1]+1:len(theGame.board.disp[row])]) + "\n")
                 else:
-                    win.addstr(" " + " ".join(theGame.board.field[row][0:self.cursor[1]]) + "[" + theGame.board.field[row][self.cursor[1]] + "]" + " ".join(theGame.board.field[row][self.cursor[1]+1:len(theGame.board.field[row])]) + "\n")
+                    win.addstr(" " + " ".join(theGame.board.disp[row][0:self.cursor[1]]) + "[" + theGame.board.disp[row][self.cursor[1]] + "]" + " ".join(theGame.board.disp[row][self.cursor[1]+1:len(theGame.board.disp[row])]) + "\n")
             else:
-                win.addstr(" " + " ".join(theGame.board.field[row]) + "\n");
+                win.addstr(" " + " ".join(theGame.board.disp[row]) + "\n");
         win.addstr(str(self.cursor[0]) + " "+ str(self.cursor[1]) + "\n")
         #print row;
         #print cur;
