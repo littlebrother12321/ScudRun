@@ -39,7 +39,7 @@ class gameInterface:
         self.height = len(theGame.board);
         self.width = len(theGame.board[0]);
     def cursorHorz(self,right):
-        if(right and self.cursor[1] < self.width):
+        if(right and self.cursor[1] < self.width -1):
            self.cursor[1] = self.cursor[1] + 1;
         if(not right and self.cursor[1] > 0):
            self.cursor[1] = self.cursor[1] - 1;
@@ -47,16 +47,20 @@ class gameInterface:
     def cursorVert(self,up):
         if(up and self.cursor[0] > 0):
            self.cursor[0] = self.cursor[0] - 1;
-        if(not up and self.cursor[0] < self.height):
+        if(not up and self.cursor[0] < self.height -1):
            self.cursor[0] = self.cursor[0] + 1;
         print self.cursor;
     def printBoard(self,win):
         win.clear();
         for row in range(len(theGame.board)):
             if(row == self.cursor[0]):
-                win.addstr(" ".join(theGame.board[row][0:self.cursor[1]]) + "[" + theGame.board[row][self.cursor[1]] + "]" + " ".join(theGame.board[row][self.cursor[1]+1:len(theGame.board[row])]) + "\n")
+                if(0 == self.cursor[1]):
+                    win.addstr(" ".join(theGame.board[row][0:self.cursor[1]]) + "[" + theGame.board[row][self.cursor[1]] + "]" + " ".join(theGame.board[row][self.cursor[1]+1:len(theGame.board[row])]) + "\n")
+                else:
+                    win.addstr(" " + " ".join(theGame.board[row][0:self.cursor[1]]) + "[" + theGame.board[row][self.cursor[1]] + "]" + " ".join(theGame.board[row][self.cursor[1]+1:len(theGame.board[row])]) + "\n")
             else:
-                win.addstr(" ".join(theGame.board[row]) + "\n");
+                win.addstr(" " + " ".join(theGame.board[row]) + "\n");
+        win.addstr(str(self.cursor[0]) + " "+ str(self.cursor[1]) + "\n")
         #print row;
         #print cur;
         #print cur[0];
@@ -117,12 +121,16 @@ def main(win):
                  iface.cursorVert(False)
                  iface.printBoard(win)
             if key == " ":
-                 theGame.shot(iface.cursor[0],iface.cursor[1])
+                 shotstr = "FIRE!\n"
+                 if(theGame.shot(iface.cursor[0],iface.cursor[1])):
+                     shotstr = "****Hit!*****\n"
+                 else:
+                     shotstr =  "----Miss!---\n"
                  iface.printBoard(win)
-                 win.addstr("SPACE" + "\n")
-            win.addstr(key + "\n")
-            win.addstr("0 "+ str(iface.cursor[0]) + "\n")    
-            win.addstr("1 "+ str(iface.cursor[1]) + "\n")    
+                 win.addstr(shotstr)
+            #win.addstr(key + "\n")
+            #win.addstr("0 "+ str(iface.cursor[0]) + "\n")
+            #win.addstr("1 "+ str(iface.cursor[1]) + "\n")
             #else:
             #    win.clear()
             #    win.addstr("Detected key: ")
