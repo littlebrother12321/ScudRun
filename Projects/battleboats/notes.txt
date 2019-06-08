@@ -1,0 +1,24 @@
+* Need an array of boats
+* Iterate the array
+_ Boats need a H/V property
+_ H/V property needs to be toggled
+* "Space" class
+* Check space for boat
+* get rid of Game::shipRow
+
+The array is too simple, we either need filled spaces, or to search a parallel array
+of occupied points.
+
+The occupied points could start as a parallel array, or as a list of occupied points
+
+
+Desired functionality
+
+Shots make it back to the boat
+** Link the space to the boat
+
+Display the same board with
+* Same board has more than one display mode
+** parallel array?
+
+

@@ -35,8 +35,8 @@ class Boat:
         #TODO: See if the boat conflicts with other boats
         pass
     def autoPlace(self,boats,board):
-        self.row = random.randint(0,board.rows)
-        self.col = random.randint(0,board.cols)
+        self.row = random.randint(0,board.rows -1)
+        self.col = random.randint(0,board.cols -1)
         #Check for fit on board
         self.checkPlacement(board)
         #check for conflict with other boats
@@ -46,10 +46,10 @@ class Boat:
         board.spaces[self.row][self.col].isBoat = True;
 
 class Game:
-    def rand_col(self):
-        return random.randint(0, self.board.cols - 1)
-    def rand_row(self):
-        return random.randint(0, self.board.rows - 1)
+    #def rand_col(self):
+    #    return random.randint(0, self.board.cols - 1)
+    #def rand_row(self):
+    #    return random.randint(0, self.board.rows - 1)
     def shot(self,row,col):
         #if row == self.shipRow and col == self.shipCol:
         if self.board.spaces[row][col].isBoat:
@@ -66,13 +66,6 @@ class Game:
         self.allBoats.append(Boat(3,"Submarine"))
         self.allBoats.append(Boat(2,"PT Boat"))
     def placeBoatsAuto(self):
-        #TODO remove this when boats are placed
-        #Define Random Selection
-        #Define Ship Position
-        self.shipRow = self.rand_row()
-        self.shipCol = self.rand_col()
-        print("Dev Row: ", self.shipRow)
-        print("Dev Col: ", self.shipCol)
         #place boats on board
         self.activeBoats = [];
         for boat in self.allBoats:
