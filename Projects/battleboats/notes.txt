@@ -11,6 +11,8 @@ of occupied points.
 
 The occupied points could start as a parallel array, or as a list of occupied points
 
+The parallel array should not really be part of the board.
+It should be generated at any given instance from the board as part of the interface
 
 Desired functionality
 
@@ -20,5 +22,13 @@ Shots make it back to the boat
 Display the same board with
 * Same board has more than one display mode
 ** parallel array?
+
+
+representing The Board:
+O Uncleared spaces
+. Cleared spaces
+* Hits %
+# Boat Present
+
 
 
