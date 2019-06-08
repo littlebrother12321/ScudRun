@@ -9,6 +9,14 @@ def intro(win):
     win.addstr("\nYou have 20 turns to guess the position of a 1 x 1 battleship\n");
     win.addstr("Move the cursor with the arrows. SPACE to fire\n");
 
+class Board:
+    def __init__(self,rows,cols):
+         self.rows = rows
+         self.cols = cols
+         self.field = []
+         for x in range(rows):
+             self.field.append(['O'] * cols)
+
 class Boat:
     def __init__(self, size, name):
         self.size = size
@@ -18,19 +26,20 @@ class Boat:
     def checkPlacement(self,boat):
         pass
     def autoPlace(self,boats,board):
-        pass
+        self.row = random.randint(0,board.rows)
+        self.col = random.randint(0,board.cols)
 
 class Game:
     def rand_col(self):
-        return random.randint(0, len(self.board[0]) - 1)
+        return random.randint(0, self.board.cols - 1)
     def rand_row(self):
-        return random.randint(0, len(self.board) - 1)
+        return random.randint(0, self.board.rows - 1)
     def shot(self,row,col):
         if row == self.shipRow and col == self.shipCol:
-           self.board[row][col] = '#'
+           self.board.field[row][col] = '#'
            return True
         else:
-           self.board[row][col] = chr(46)
+           self.board.field[row][col] = chr(46)
            return False
     def createBoats(self):
         self.allBoats = []
@@ -56,9 +65,7 @@ class Game:
         #TODO: branch for manual boat placement
         #Might require the interface to place them, or check
     def __init__(self):
-        self.board = []
-        for x in range(10):
-            self.board.append(['O'] * 10)
+        self.board = Board(10,10)
         self.createBoats()
         self.placeBoats()
 
@@ -66,8 +73,8 @@ class Game:
 class GameInterface:
     def __init__(self,theGame):
         self.cursor = [4,4];
-        self.height = len(theGame.board);
-        self.width = len(theGame.board[0]);
+        self.height = theGame.board.rows
+        self.width = theGame.board.cols
     def cursorHorz(self,right):
         if(right and self.cursor[1] < self.width -1):
            self.cursor[1] = self.cursor[1] + 1;
@@ -82,14 +89,14 @@ class GameInterface:
         print self.cursor;
     def printBoard(self,win):
         win.clear();
-        for row in range(len(theGame.board)):
+        for row in range(theGame.board.rows):
             if(row == self.cursor[0]):
                 if(0 == self.cursor[1]):
-                    win.addstr(" ".join(theGame.board[row][0:self.cursor[1]]) + "[" + theGame.board[row][self.cursor[1]] + "]" + " ".join(theGame.board[row][self.cursor[1]+1:len(theGame.board[row])]) + "\n")
+                    win.addstr(" ".join(theGame.board.field[row][0:self.cursor[1]]) + "[" + theGame.board.field[row][self.cursor[1]] + "]" + " ".join(theGame.board.field[row][self.cursor[1]+1:len(theGame.board.field[row])]) + "\n")
                 else:
-                    win.addstr(" " + " ".join(theGame.board[row][0:self.cursor[1]]) + "[" + theGame.board[row][self.cursor[1]] + "]" + " ".join(theGame.board[row][self.cursor[1]+1:len(theGame.board[row])]) + "\n")
+                    win.addstr(" " + " ".join(theGame.board.field[row][0:self.cursor[1]]) + "[" + theGame.board.field[row][self.cursor[1]] + "]" + " ".join(theGame.board.field[row][self.cursor[1]+1:len(theGame.board.field[row])]) + "\n")
             else:
-                win.addstr(" " + " ".join(theGame.board[row]) + "\n");
+                win.addstr(" " + " ".join(theGame.board.field[row]) + "\n");
         win.addstr(str(self.cursor[0]) + " "+ str(self.cursor[1]) + "\n")
         #print row;
         #print cur;
