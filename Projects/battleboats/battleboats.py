@@ -9,7 +9,18 @@ def intro(win):
     win.addstr("\nYou have 20 turns to guess the position of a 1 x 1 battleship\n");
     win.addstr("Move the cursor with the arrows. SPACE to fire\n");
 
-class game:
+class Boat:
+    def __init__(self, size, name):
+        self.size = size
+        placed = False
+    def checkPlacement(self,board):
+        pass
+    def checkPlacement(self,boat):
+        pass
+    def autoPlace(self,boats,board):
+        pass
+
+class Game:
     def rand_col(self):
         return random.randint(0, len(self.board[0]) - 1)
     def rand_row(self):
@@ -21,19 +32,38 @@ class game:
         else:
            self.board[row][col] = chr(46)
            return False
-    def __init__(self):
-        self.board = []
-        for x in range(10):
-            self.board.append(['O'] * 10)
+    def createBoats(self):
+        self.allBoats = []
+        self.allBoats.append(Boat(5,"Carrier"))
+        self.allBoats.append(Boat(4,"Battleship"))
+        self.allBoats.append(Boat(3,"Cruiser"))
+        self.allBoats.append(Boat(3,"Submarine"))
+        self.allBoats.append(Boat(2,"PT Boat"))
+    def placeBoatsAuto(self):
+        #TODO remove this when boats are placed
         #Define Random Selection
         #Define Ship Position
         self.shipRow = self.rand_row()
         self.shipCol = self.rand_col()
         print("Dev Row: ", self.shipRow)
         print("Dev Col: ", self.shipCol)
+        #place boats on board
+        self.activeBoats = [];
+        for boat in self.allBoats:
+            boat.autoPlace(self.activeBoats,self.board)
+    def placeBoats(self):
+        self.placeBoatsAuto()
+        #TODO: branch for manual boat placement
+        #Might require the interface to place them, or check
+    def __init__(self):
+        self.board = []
+        for x in range(10):
+            self.board.append(['O'] * 10)
+        self.createBoats()
+        self.placeBoats()
 
 
-class gameInterface:
+class GameInterface:
     def __init__(self,theGame):
         self.cursor = [4,4];
         self.height = len(theGame.board);
@@ -85,8 +115,8 @@ def getInput(rowOrCol):
 #   board[guessRow][guessCol] = 'x';
 #   printBoard(board,cursor);
 
-theGame = game();
-iface = gameInterface(theGame);
+theGame = Game();
+iface = GameInterface(theGame);
 
 
 def main(win):
