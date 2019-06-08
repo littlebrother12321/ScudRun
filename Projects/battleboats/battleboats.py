@@ -21,7 +21,7 @@ class Board:
          self.spaces = []
          self.disp = []
          for x in range(rows):
-             self.spaces.append(Space() for count in range(cols))
+             self.spaces.append([Space() for count in range(cols)])
              self.disp.append(['O'] * cols)
 
 class Boat:
@@ -37,10 +37,13 @@ class Boat:
     def autoPlace(self,boats,board):
         self.row = random.randint(0,board.rows)
         self.col = random.randint(0,board.cols)
+        #Check for fit on board
         self.checkPlacement(board)
+        #check for conflict with other boats
         for boat in boats:
             self.checkPlacement(boat)
-        #board.spaces[self.row][self.col].isBoat = True;
+        #Indicate occupation of spaces on the board
+        board.spaces[self.row][self.col].isBoat = True;
 
 class Game:
     def rand_col(self):
@@ -48,7 +51,8 @@ class Game:
     def rand_row(self):
         return random.randint(0, self.board.rows - 1)
     def shot(self,row,col):
-        if row == self.shipRow and col == self.shipCol:
+        #if row == self.shipRow and col == self.shipCol:
+        if self.board.spaces[row][col].isBoat:
            self.board.disp[row][col] = '#'
            return True
         else:
