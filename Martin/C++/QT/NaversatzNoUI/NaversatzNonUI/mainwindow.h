@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QAbstractButton>
+#include <QtGlobal>
 
 class MainWindow : public QMainWindow
 {

@@ -73,6 +73,8 @@ void MainWindow::OnFileSave()
 void MainWindow::OnSetUDP()
 {
     statusBar()->showMessage("Set -> UDP");
+
+    /*
     QMessageBox *msg = new QMessageBox(this);
 
     msg->setIcon(QMessageBox::Question);
@@ -82,4 +84,8 @@ void MainWindow::OnSetUDP()
     msg->setDefaultButton(QMessageBox::Yes);
 
     msg->exec();
+    */
+
+    int ret = QMessageBox::question(this, tr("Set UDP Port"), tr("Do you want to set the UDP Port?")
+                                    , QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)
 }
