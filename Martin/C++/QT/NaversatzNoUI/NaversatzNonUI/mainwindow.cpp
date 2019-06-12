@@ -36,10 +36,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     menu->addAction(action);
 
     // Set
-    menuBar->addMenu("&Set");
+    menu = menuBar->addMenu("&Set");
 
     // UDP
-    action = new QAction("&UDP", this);
+    action = new QAction("&UDP target", this);
     connect(action, &QAction::triggered, this, &MainWindow::OnSetUDP);
     menu->addAction(action);
 
@@ -73,4 +73,13 @@ void MainWindow::OnFileSave()
 void MainWindow::OnSetUDP()
 {
     statusBar()->showMessage("Set -> UDP");
+    QMessageBox *msg = new QMessageBox(this);
+
+    msg->setIcon(QMessageBox::Question);
+    msg->setWindowTitle("Set UDP Port?");
+    msg->setText("Do you want to set the UDP Port for Naversatz?");
+    msg->setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msg->setDefaultButton(QMessageBox::Yes);
+
+    msg->exec();
 }

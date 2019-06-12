@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QMenuBar>
 #include <QStatusBar>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QAbstractButton>
 
 class MainWindow : public QMainWindow
 {
