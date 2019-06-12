@@ -2,27 +2,24 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtGui>
-
-namespace Ui {
-class MainWindow;
-}
+#include <QMenuBar>
+#include <QStatusBar>
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    // Construct and Destruct
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
+    // Actions
     void OnFileNew();
     void OnFileOpen();
     void OnFileSave();
-
-private:
-    Ui::MainWindow *ui;
+    void OnSetUDP();
 };
 
 #endif // MAINWINDOW_H
