@@ -87,5 +87,5 @@ void MainWindow::OnSetUDP()
     */
 
     int ret = QMessageBox::question(this, tr("Set UDP Port"), tr("Do you want to set the UDP Port?")
-                                    , QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)
+                                    , QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
 }
