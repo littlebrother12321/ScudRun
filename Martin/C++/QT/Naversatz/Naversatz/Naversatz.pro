@@ -1,14 +1,14 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-06-11T15:05:56
+# Project created by QtCreator 2019-06-12T10:37:56
 #
 #-------------------------------------------------
 
-QT       += core gui printsupport
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = NaversatzDialogBox
+TARGET = Naversatz
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -38,6 +38,3 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-RESOURCES += \
-    rescources.qrc
