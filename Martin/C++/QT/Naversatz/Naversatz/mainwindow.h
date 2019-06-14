@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QtGui>
+#include <QLineEdit>
 
 namespace Ui {
 class MainWindow;
@@ -17,9 +18,11 @@ public:
     ~MainWindow();
 
 private slots:
-    void OnFileNew();
-    void OnFileOpen();
-    void OnFileSave();
+    //void OnFileNew();
+    //void OnFileOpen();
+    //void OnFileSave();
+
+    void on_actionUDP_Target_triggered();
 
 private:
     Ui::MainWindow *ui;

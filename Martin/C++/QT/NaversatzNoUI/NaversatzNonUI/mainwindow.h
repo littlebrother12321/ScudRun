@@ -8,6 +8,9 @@
 #include <QPushButton>
 #include <QAbstractButton>
 #include <QtGlobal>
+#include <QtWidgets>
+#include <QLineEdit>
+#include <QWindow>
 
 class MainWindow : public QMainWindow
 {
@@ -20,10 +23,11 @@ public:
 
 private slots:
     // Actions
-    void OnFileNew();
-    void OnFileOpen();
-    void OnFileSave();
+
+    //void OnFileNew();
+    //void OnFileOpen();
+    //void OnFileSave();
+
     void OnSetUDP();
 };
-
 #endif // MAINWINDOW_H

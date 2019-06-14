@@ -26,13 +26,16 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        udptarget.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+        udptarget.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+        udptarget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

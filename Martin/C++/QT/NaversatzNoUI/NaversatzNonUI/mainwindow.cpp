@@ -15,31 +15,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     // Menu Items
 
-    // File
-    QMenu *menu = menuBar->addMenu("&File");
-
-    // New
-    QAction *action = new QAction("&New", this);
-    connect(action, &QAction::triggered, this, &MainWindow::OnFileNew);
-    menu->addAction(action);
-    // Open
-    action = new QAction("&Open", this);
-    connect(action, &QAction::triggered, this, &MainWindow::OnFileOpen);
-    menu->addAction(action);
-    // Save
-    action = new QAction("&Save", this);
-    connect(action, &QAction::triggered, this, &MainWindow::OnFileSave);
-    menu->addAction(action);
-    // Exit
-    action = new QAction("&Exit", this);
-    connect(action, &QAction::triggered, this, &MainWindow::close);
-    menu->addAction(action);
-
     // Set
-    menu = menuBar->addMenu("&Set");
+    QMenu *menu = menuBar->addMenu("&Set");
 
     // UDP
-    action = new QAction("&UDP target", this);
+    QAction *action = new QAction("&UDP target", this);
     connect(action, &QAction::triggered, this, &MainWindow::OnSetUDP);
     menu->addAction(action);
 
@@ -51,41 +31,43 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 }
 
 MainWindow::~MainWindow()
-{
-
-}
-
-void MainWindow::OnFileNew()
-{
-    statusBar()->showMessage("File -> New");
-}
-
-void MainWindow::OnFileOpen()
-{
-    statusBar()->showMessage("File -> Open");
-}
-
-void MainWindow::OnFileSave()
-{
-    statusBar()->showMessage("File -> Save");
-}
+{}
 
 void MainWindow::OnSetUDP()
 {
     statusBar()->showMessage("Set -> UDP");
 
-    /*
-    QMessageBox *msg = new QMessageBox(this);
+    QPushButton *yes = new QPushButton;
+    QPushButton *no = new QPushButton;
 
-    msg->setIcon(QMessageBox::Question);
-    msg->setWindowTitle("Set UDP Port?");
-    msg->setText("Do you want to set the UDP Port for Naversatz?");
-    msg->setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msg->setDefaultButton(QMessageBox::Yes);
+    yes->setText(tr("Confirm"));
+    yes->setDefault(true);
+    no->setText(tr("Cancel"));    
 
-    msg->exec();
-    */
+    QWidget *setUDP = new QWidget;
+    QLabel *label = new QLabel(tr("UDP Target: "));
+    QLineEdit *ipField = new QLineEdit();
+    QHBoxLayout *layout = new QHBoxLayout();
 
-    int ret = QMessageBox::question(this, tr("Set UDP Port"), tr("Do you want to set the UDP Port?")
-                                    , QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    QMainWindow *window = new QMainWindow();
+    window->setCentralWidget(setUDP);
+    window->setWindowTitle(tr("Set UDP Target"));
+    QObject::connect(yes, SIGNAL(yes->clicked()), this, SLOT(MainWindow::OnSetUDP()));
+    QObject::connect(no, SIGNAL(yes->clicked()), this, SLOT(MainWindow::~MainWindow()));
+
+    label->setBaseSize(300, 25);
+
+    ipField->setInputMask(tr("000.000.000.000:0000;*"));
+
+    layout->addWidget(label);
+    layout->addWidget(ipField);
+    layout->addWidget(yes);
+    layout->addWidget(no);
+
+    setUDP->setLayout(layout);
+    setUDP->show();
+
+    window->show();
+
+    //connect(yes, yes->released(), this, )
 }
