@@ -7,13 +7,21 @@ class udpWindow
 public:
     udpWindow();
     ~udpWindow();
+
+    QPushButton *yes = new QPushButton;
+    QPushButton *no = new QPushButton;
+
+private slots:
+    void OnConfirm();
+    void OnDeny();
+
+private:
+    bool affirm;
+    bool deny;
 };
 
 udpWindow::udpWindow()
 {
-    QPushButton *yes = new QPushButton;
-    QPushButton *no = new QPushButton;
-
     yes->setText("Confirm");
     yes->setDefault(true);
     no->setText("Cancel");
@@ -46,4 +54,14 @@ udpWindow::udpWindow()
 
 udpWindow::~udpWindow()
 {}
+
+void udpWindow::OnConfirm()
+{
+    affirm = true;
+}
+
+void udpWindow::OnDeny()
+{
+    deny = true;
+}
 #endif // SETUDP_H

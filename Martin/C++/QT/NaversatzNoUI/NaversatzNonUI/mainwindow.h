@@ -11,6 +11,7 @@
 #include <QtWidgets>
 #include <QLineEdit>
 #include <QWindow>
+#include <QObject>
 
 class MainWindow : public QMainWindow
 {

@@ -39,5 +39,8 @@ void MainWindow::OnSetUDP()
 
     udpWindow *window = new udpWindow();
 
+    QObject::connect(udpWindow::yes, SIGNAL(udpWindow->yes->released()),
+                     window,  SLOT(window.OnConfirm()));
+
     //connect(yes, yes->released(), this, )
 }
