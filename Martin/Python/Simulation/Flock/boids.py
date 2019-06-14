@@ -28,12 +28,23 @@ class boid:
         pygame.draw.circle(screen, BLACK, (int(self.posX), int(self.posY)), 5)
 
     def update(self):
-        if self.posX >= width or self.posX <= 0:
+        print("Current X Acceleration: ", self.accX)
+        print("Current Y Acceleration: ", self.accY)
+
+        if self.posX >= width:
+            #self.posX = width/2
+            self.velX = self.tmpVelX * -1
+            self.accX = self.tmpAccX * -1
+        if self.posX <= 0:
             #self.posX = width/2
             self.velX = self.tmpVelX * -1
             self.accX = self.tmpAccX * -1
 
-        if self.posY >= height or self.posY <= 0:
+        if self.posY >= height:
+            #self.posY = height/2
+            self.velY = self.tmpVelY * -1
+            self.accY = self.tmpAccY * -1
+        if self.posY <= 0:
             #self.posY = height/2
             self.velY = self.tmpVelY * -1
             self.accY = self.tmpAccY * -1
