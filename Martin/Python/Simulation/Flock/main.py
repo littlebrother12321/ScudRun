@@ -4,7 +4,7 @@ import math
 from random import *
 from boids import boid
 
-(width, height) = (1280, 720)
+(width, height) = (640, 480)
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
 RED   = (255,   0,   0)

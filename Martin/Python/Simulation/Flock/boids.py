@@ -1,6 +1,6 @@
 import pygame
 
-(width, height) = (1280, 720)
+(width, height) = (640, 480)
 
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
@@ -19,11 +19,10 @@ class boid:
         self.velY = velY
         self.accX = accX / 10
         self.accY = accY / 10
-
-    tmpAccX = self.accX / 10
-    tmpAccY = self.accY / 10
-    tmpVelX = self.velX
-    tmpVelY = self.velY
+        self.tmpAccX = self.accX / 10
+        self.tmpAccY = self.accY / 10
+        self.tmpVelX = self.velX
+        self.tmpVelY = self.velY
 
     def draw(self):
         pygame.draw.circle(screen, BLACK, (int(self.posX), int(self.posY)), 5)
@@ -31,18 +30,16 @@ class boid:
     def update(self):
         if self.posX >= width or self.posX <= 0:
             #self.posX = width/2
-            self.velX = tmpVelX * -1
-            self.accX = tmpAccX
+            self.velX = self.tmpVelX * -1
+            self.accX = self.tmpAccX * -1
 
         if self.posY >= height or self.posY <= 0:
             #self.posY = height/2
-            self.velY = tmpVelY * -1
-            self.accY = tmpAccY
+            self.velY = self.tmpVelY * -1
+            self.accY = self.tmpAccY * -1
 
         self.velX += self.accX
         self.velY += self.accY
 
         self.posX += self.velX
         self.posY += self.velY
-
-boids = []
