@@ -38,9 +38,8 @@ void MainWindow::OnSetUDP()
     statusBar()->showMessage("Set -> UDP");
 
     udpWindow *window = new udpWindow();
-
-    QObject::connect(window, SIGNAL(udpWindow->yes->released()),
-                     window,  SLOT(window.OnConfirm()));
+    //QObject::connect(window, SIGNAL(udpWindow->yes->released()),
+    //                 window,  SLOT(window.OnConfirm()));
 
     //connect(yes, yes->released(), this, )
 }

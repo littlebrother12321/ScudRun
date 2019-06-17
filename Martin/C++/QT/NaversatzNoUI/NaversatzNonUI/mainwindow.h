@@ -25,10 +25,6 @@ public:
 private slots:
     // Actions
 
-    //void OnFileNew();
-    //void OnFileOpen();
-    //void OnFileSave();
-
     void OnSetUDP();
 };
 #endif // MAINWINDOW_H

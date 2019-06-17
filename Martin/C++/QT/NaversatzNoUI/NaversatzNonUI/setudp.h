@@ -1,8 +1,10 @@
 #ifndef SETUDP_H
 #define SETUDP_H
 #include "mainwindow.h"
+#include <QObject>
+#include <iostream>
 
-class udpWindow
+class udpWindow : QObject
 {
 public:
     udpWindow();
@@ -34,12 +36,12 @@ udpWindow::udpWindow()
     QMainWindow *window = new QMainWindow();
     window->setCentralWidget(setUDP);
     window->setWindowTitle("Set UDP Target");
-    //QObject::connect(yes, SIGNAL(yes->clicked()), this, SLOT(MainWindow::OnSetUDP()));
-    //QObject::connect(no, SIGNAL(yes->clicked()), this, SLOT(MainWindow::~MainWindow()));
+    connect(yes, SIGNAL(yes->clicked()), this, SLOT(udpTarget::OnConfirm()));
+    connect(no, SIGNAL(yes->clicked()), this, SLOT(close()));
 
     label->setBaseSize(300, 25);
 
-    ipField->setInputMask("000.000.000.000:0000;*");
+    ipField->setInputMask("000.000.000.000:0000;-");
 
     layout->addWidget(label);
     layout->addWidget(ipField);
@@ -58,6 +60,8 @@ udpWindow::~udpWindow()
 void udpWindow::OnConfirm()
 {
     affirm = true;
+
+    std::cout << affirm << std::endl;
 }
 
 void udpWindow::OnDeny()
