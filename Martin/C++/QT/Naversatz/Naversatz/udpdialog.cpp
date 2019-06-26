@@ -1,6 +1,7 @@
 #include "udpdialog.h"
 #include "ui_udpdialog.h"
 #include <QtDebug>
+#include <QSettings>
 
 UDPDialog::UDPDialog(QWidget *parent) :
     QDialog(parent),

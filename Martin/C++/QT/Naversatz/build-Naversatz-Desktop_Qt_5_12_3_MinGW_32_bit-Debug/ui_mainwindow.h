@@ -64,7 +64,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Application", nullptr));
         actionUDP_Target->setText(QApplication::translate("MainWindow", "UDP Target", nullptr));
         menuSet->setTitle(QApplication::translate("MainWindow", "Set", nullptr));
     } // retranslateUi
