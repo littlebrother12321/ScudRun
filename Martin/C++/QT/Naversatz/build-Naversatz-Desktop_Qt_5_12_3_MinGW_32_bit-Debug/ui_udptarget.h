@@ -27,10 +27,10 @@ public:
     {
         if (Dialog->objectName().isEmpty())
             Dialog->setObjectName(QString::fromUtf8("Dialog"));
-        Dialog->resize(199, 60);
+        Dialog->resize(201, 61);
         buttonBox = new QDialogButtonBox(Dialog);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
-        buttonBox->setGeometry(QRect(-160, 30, 341, 32));
+        buttonBox->setGeometry(QRect(10, 30, 171, 32));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
         plainTextEdit = new QPlainTextEdit(Dialog);

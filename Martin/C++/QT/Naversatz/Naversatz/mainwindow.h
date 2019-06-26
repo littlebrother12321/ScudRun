@@ -18,10 +18,6 @@ public:
     ~MainWindow();
 
 private slots:
-    //void OnFileNew();
-    //void OnFileOpen();
-    //void OnFileSave();
-
     void on_actionUDP_Target_triggered();
 
 private:

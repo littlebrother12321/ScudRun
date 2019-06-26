@@ -41,7 +41,7 @@ udpWindow::udpWindow()
 
     label->setBaseSize(300, 25);
 
-    ipField->setInputMask("000.000.000.000:0000;-");
+    ipField->setInputMask("000.000.000.000:0000;#");
 
     layout->addWidget(label);
     layout->addWidget(ipField);
