@@ -26,8 +26,8 @@ public:
     QVBoxLayout *verticalLayout;
     QLabel *label;
     QComboBox *comboBox;
-    QDialogButtonBox *buttonBox;
     QLineEdit *lineEdit;
+    QDialogButtonBox *buttonBox;
 
     void setupUi(QDialog *UDPDialog)
     {
@@ -52,6 +52,11 @@ public:
 
         verticalLayout->addWidget(comboBox);
 
+        lineEdit = new QLineEdit(UDPDialog);
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+
+        verticalLayout->addWidget(lineEdit);
+
         buttonBox = new QDialogButtonBox(UDPDialog);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
         buttonBox->setOrientation(Qt::Horizontal);
@@ -59,11 +64,6 @@ public:
         buttonBox->setCenterButtons(true);
 
         verticalLayout->addWidget(buttonBox);
-
-        lineEdit = new QLineEdit(UDPDialog);
-        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-
-        verticalLayout->addWidget(lineEdit);
 
 
         retranslateUi(UDPDialog);

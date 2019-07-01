@@ -7,6 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QSettings settings(QString("config.ini"), QSettings::IniFormat);
+    QString someValue = settings.value("some/config/key", "default value if unset").toString();
 }
 
 MainWindow::~MainWindow()

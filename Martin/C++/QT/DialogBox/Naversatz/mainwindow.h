@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QtGui>
 #include <QLineEdit>
+#include <QSettings>
 
 namespace Ui {
 class MainWindow;
