@@ -56,6 +56,7 @@ unpuaseSound = pygame.mixer.Sound('sounds/puase.wav');
 #load screen text
 pygame.font.init();
 scorefont = pygame.font.Font(None,30);
+statusFont = pygame.font.Font(None,20)
 screenText = "";
 screen_text = "";
 #game states
@@ -357,26 +358,35 @@ def play_level():
          screenText = "GAME OVER:  Quitter";
 
       #Game Logic
+      aliveBots = 0;
       if not paused:
          player.update();
          #move class robots and check for collisions
-         for i in range(len(moblist)):
+      for i in range(len(moblist)):
+         if not paused:
             moblist[i].update(player);
-            #Check for collistion with Player
-            if(moblist[i].collided(player,10)):
-               player.broken = True;
-               keepPlaying = False;
-               loseSound.play();
-               #pygame.mixer.Channel(2).play(pygame.mixer.Sound('sounds/loseSound'));
-               print "you died";
-               screenText = "You died   GAME OVER";
-            #Check for collisions with other Bots
-            for j in range(i+1,len(moblist)):
-               if(moblist[i].collided(moblist[j],10)):
-                  moblist[i].broken=True;
-                  moblist[j].broken=True;
-                  collisionSound.play();
-                  #pygame.mixer.Channel(3).play(pygame.mixer.Sound('sounds/collisionSound'));
+             #Check for collistion with Player
+         if(moblist[i].collided(player,10)):
+            player.broken = True;
+            keepPlaying = False;
+            loseSound.play();
+            #pygame.mixer.Channel(2).play(pygame.mixer.Sound('sounds/loseSound'));
+            print "you died";
+            screenText = "You died   GAME OVER";
+         #Check for collisions with other Bots
+         for j in range(i+1,len(moblist)):
+            if(moblist[i].collided(moblist[j],10)):
+               moblist[i].broken=True;
+               moblist[j].broken=True;
+               collisionSound.play();
+               #pygame.mixer.Channel(3).play(pygame.mixer.Sound('sounds/collisionSound'));
+         if moblist[i].broken == False:
+            aliveBots = aliveBots + 1;
+      if aliveBots == 0:
+          keepPlaying = False;
+          screenText = "You Win!"
+      
+               
 
       #Draw the screen
       screen.fill((12,0,128));
@@ -394,7 +404,10 @@ def play_level():
       if keepPlaying == True:
          KeepPlayingText = scorefont.render(screen_text, 1, (255,255,255));
          screen.blit(KeepPlayingText, [412,390]);
+      botCountText = statusFont.render("Bots: "+str(aliveBots),1,(255,255,255));
+      screen.blit(botCountText, [40,30]);
       pygame.display.flip();
+      print "AliveBots: " + str(aliveBots);
    pygame.time.wait(1000);
    #render (str"game over", 1, (0,0,0));
    print "Game over"
@@ -418,7 +431,6 @@ def quit_menu():
             screenText = "GAME OVER:  Quitter";
          if not hasattr(event, 'key'):
             continue;
-            screenText = "GAME OVER:  Quitter";
          if event.key == pygame.K_y:
             waiting_for_user = False;
             return True;
