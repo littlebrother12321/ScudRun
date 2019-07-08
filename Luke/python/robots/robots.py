@@ -15,24 +15,11 @@ BOX_RIGHT = 1024;
 MAX_CHARACTER_SPEED = 1.10;
 ROBOT_SPEED = 3;
 CREEPBOT_SPEED = 3;
-NUMBER_OF_LOCKBOTS = 10;
-NUMBER_OF_WILDBOTS = 10;
-NUMBER_OF_CREEPBOTS = 10;
-NUMBER_OF_NURSEBOTS = 10;
-NUMBER_OF_MEDKITS = 10;
-
-#Initialization
- #Screen
-screen = pygame.display.set_mode((BOX_RIGHT,BOX_BOTTOM	));
-pygame.display.set_caption('Robots game');
- #Random Number Generator
-clock = pygame.time.Clock();
-random.seed();
- #get the joystick ready
-pygame.joystick.init();
-if(pygame.joystick.get_count()):
-   joystick = pygame.joystick.Joystick(0);
-   joystick.init();
+#NUMBER_OF_LOCKBOTS = 10;
+#NUMBER_OF_WILDBOTS = 10;
+#NUMBER_OF_CREEPBOTS = 10;
+#NUMBER_OF_NURSEBOTS = 10;
+#NUMBER_OF_MEDKITS = 10;
 
 #loads
 #load robot pictures
@@ -68,6 +55,14 @@ paused = False;
 
 #define functions
    #define classes
+class Level:
+   def __init__(self,lockbots,wildbots,creepbots,nursebots,medkits):
+      self.lockbots = lockbots;
+      self.wildbots = wildbots;
+      self.creepbots = creepbots;
+      self.nursebots = nursebots;
+      self.medkits = medkits;
+
 class thing:
    def __init__(self):
       pass
@@ -287,21 +282,31 @@ class Medkit(thing):
 
 #setting up the game
 def reset_game():
+   global levels;
    global keepPlaying;
    global player
+   player = Character();
+   keepPlaying = True;
+   #level(lockbots,wildbots,creepbots,nursebots,medkits):
+   levels = [];
+   levels += [Level(0,10,10,0,0)];
+   levels += [Level(10,10,0,0,0)];
+   levels += [Level(10,10,10,0,0)];
+
+def setup_level(level):
+   global keepPlaying;
+   global levels;
    global moblist;
    global thinglist;
-   player = Character();
-   moblist = [];
-   moblist = [Lockbot() for count in range(NUMBER_OF_LOCKBOTS)];
-   moblist += [Wildbot() for count in range(NUMBER_OF_WILDBOTS)];
-   moblist += [Creepbot() for count in range(NUMBER_OF_CREEPBOTS)];
-   moblist += [Nursebot() for count in range(NUMBER_OF_NURSEBOTS)];
-
-   thinglist = [];
-   thinglist += [Medkit() for count in range(NUMBER_OF_MEDKITS)];
    keepPlaying = True;
- 
+   moblist = [];
+   moblist = [Lockbot() for count in range(levels[level].lockbots)];
+   moblist += [Wildbot() for count in range(levels[level].wildbots)];
+   moblist += [Creepbot() for count in range(levels[level].creepbots)];
+   moblist += [Nursebot() for count in range(levels[level].nursebots)];
+   thinglist = [];
+   thinglist += [Medkit() for count in range(levels[level].medkits)];
+
 #pause function
 def toggle_pause():
    global paused;
@@ -321,6 +326,7 @@ def play_level():
    global moblist;
    global thinglist;
    global screen_text;
+   aliveBots = 0;
    while keepPlaying:
       clock.tick(1000);
       #Handle Events (key press)
@@ -386,8 +392,6 @@ def play_level():
           keepPlaying = False;
           screenText = "You Win!"
       
-               
-
       #Draw the screen
       screen.fill((12,0,128));
       player.render();
@@ -410,7 +414,11 @@ def play_level():
       print "AliveBots: " + str(aliveBots);
    pygame.time.wait(1000);
    #render (str"game over", 1, (0,0,0));
-   print "Game over"
+#   print "Game over"
+   if aliveBots == 0:
+      return True;
+   else:
+      return False;
 
 def quit_menu():
    global screen_text;
@@ -439,10 +447,29 @@ def quit_menu():
             return False;
 
 
+#Initialization
+ #ScreeneyboardInterrupt
+screen = pygame.display.set_mode((BOX_RIGHT,BOX_BOTTOM	));
+pygame.display.set_caption('Robots game');
+ #Random Number Generator
+clock = pygame.time.Clock();
+random.seed();
+ #get the joystick ready
+pygame.joystick.init();
+if(pygame.joystick.get_count()):
+   joystick = pygame.joystick.Joystick(0);
+   joystick.init();
 
 #Start the game
 playing = True;
+level = 0;
 while playing:
    reset_game();
-   play_level();
-   playing = quit_menu();
+   while level < len(levels):      
+      setup_level(level);
+      if play_level() == True:
+         print "Level " + str(level) + " Complete"
+         level = level +1;
+      else:
+         playing = quit_menu();
+   #if we beat the level = next level
